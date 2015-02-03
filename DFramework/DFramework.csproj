@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C416F54E-1AC5-404A-B5B3-57254DA18E7C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DFramework</RootNamespace>
+    <AssemblyName>DFramework</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Command\AbstractCommandExecutor.cs" />
+    <Compile Include="Command\CommandExecutionExecption.cs" />
+    <Compile Include="Command\CommandExecutorContainer.cs" />
+    <Compile Include="Command\DefaultCommandBus.cs" />
+    <Compile Include="Command\DFrameworkCommandBusExtension.cs" />
+    <Compile Include="Command\ICommand.cs" />
+    <Compile Include="Command\ICommandBus.cs" />
+    <Compile Include="Command\ICommandExecutor.cs" />
+    <Compile Include="Command\ICommandExecutorContainer.cs" />
+    <Compile Include="Command\UnknowExecption.cs" />
+    <Compile Include="DisposableResource.cs" />
+    <Compile Include="Exceptions\DFrameworkExcepiton.cs" />
+    <Compile Include="Extensions\CollectionExtension.cs" />
+    <Compile Include="Extensions\DateTimeExtension.cs" />
+    <Compile Include="Extensions\DecimalExtension.cs" />
+    <Compile Include="Extensions\DoubleExtension.cs" />
+    <Compile Include="Extensions\EnumerableExtension.cs" />
+    <Compile Include="Extensions\GuidExtension.cs" />
+    <Compile Include="Extensions\PredicateExtension.cs" />
+    <Compile Include="Extensions\QueryableExtension.cs" />
+    <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="DEnvironment.cs" />
+    <Compile Include="Infrastructure\Caching\Cache.cs" />
+    <Compile Include="Infrastructure\Caching\ICache.cs" />
+    <Compile Include="Infrastructure\Configuration\ConfigurationManagerWrapper.cs" />
+    <Compile Include="Infrastructure\DynamicReflection\Dynamic.cs" />
+    <Compile Include="Infrastructure\DynamicReflection\DynamicComparer.cs" />
+    <Compile Include="Infrastructure\DynamicReflection\DynamicEmit.cs" />
+    <Compile Include="Infrastructure\IoC\DependencyResolverFactory.cs" />
+    <Compile Include="Infrastructure\IoC\IDependencyResolver.cs" />
+    <Compile Include="Infrastructure\IoC\IDependencyResolverFactory.cs" />
+    <Compile Include="Infrastructure\IoC\IoC.cs" />
+    <Compile Include="Infrastructure\IoC\IoCException.cs" />
+    <Compile Include="Infrastructure\IoC\LifeStyle.cs" />
+    <Compile Include="Infrastructure\Logging\ILog.cs" />
+    <Compile Include="Infrastructure\Logging\Log.cs" />
+    <Compile Include="Infrastructure\Serializing\IJsonSerializer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\CheckHelper.cs" />
+    <Compile Include="Utilities\ConfigurationManagerWrapper.cs" />
+    <Compile Include="Utilities\CryptoHelper.cs" />
+    <Compile Include="Utilities\DeepCloneHelper.cs" />
+    <Compile Include="Utilities\EmailSender.cs" />
+    <Compile Include="Utilities\KetamaNodeLocator.cs" />
+    <Compile Include="Utilities\PasswordHelper.cs" />
+    <Compile Include="Utilities\TypeUtil.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
