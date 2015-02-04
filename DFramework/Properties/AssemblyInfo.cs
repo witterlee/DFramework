@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("DFramework")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A framework with command bus")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("Witte Lee")]
 [assembly: AssemblyProduct("DFramework")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2015")]
 [assembly: AssemblyTrademark("")]

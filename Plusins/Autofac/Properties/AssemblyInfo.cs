@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("DFramework.Autofac")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("DFramework's IOC Plusin")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("Witte Lee")]
 [assembly: AssemblyProduct("DFramework.Autofac")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2014")]
+[assembly: AssemblyCopyright("Copyright © DFramework 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
