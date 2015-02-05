@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DFramework
 {
@@ -10,7 +11,7 @@ namespace DFramework
     /// </summary>
     public interface ICommandExecutor<TCommand> : ICommandExecutor where TCommand : ICommand
     {
-        void Execute(TCommand cmd);
+        Task ExecuteAsync(TCommand cmd);
     }
 
     public interface ICommandExecutor { }

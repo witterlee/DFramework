@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DFramework
 {
@@ -11,5 +12,6 @@ namespace DFramework
     public interface ICommandBus
     {
         void Send<TCommand>(TCommand cmd) where TCommand : ICommand;
+        Task SendAsync<TCommand>(TCommand cmd) where TCommand : ICommand;
     }
 }

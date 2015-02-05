@@ -1,14 +1,14 @@
 ﻿using System;
 using Xunit;
-using FC.Framework;
+using DFramework;
 using System.Collections.Generic;
 using System.Linq;
-using FC.Framework.Utilities;
+using DFramework.Utilities;
 using System.Text;
 
-namespace FC.Framework.CouchCache.UnitTest
+namespace DFramework.CouchCache.UnitTest
 {
-    public class UnitTest1
+    public class UnitTest
     {
 
         [Fact]

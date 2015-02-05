@@ -20,6 +20,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C0B4D7
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFramework.UnitTest", "Plusins\UnitTest\FC.Framework.UnitTest\DFramework.UnitTest.csproj", "{058AEF85-A0F4-4E47-BC02-41271B91D631}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFramework.CouchCache.UnitTest", "Plusins\UnitTest\FC.Framework.CouchCache.UnitTest\DFramework.CouchCache.UnitTest.csproj", "{6BAE4C90-E94B-4A42-913D-D7C77954AD27}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +46,14 @@ Global
 		{E7AA76D6-B29E-4F79-9123-7E3C802BFBBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7AA76D6-B29E-4F79-9123-7E3C802BFBBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7AA76D6-B29E-4F79-9123-7E3C802BFBBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{058AEF85-A0F4-4E47-BC02-41271B91D631}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{058AEF85-A0F4-4E47-BC02-41271B91D631}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{058AEF85-A0F4-4E47-BC02-41271B91D631}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{058AEF85-A0F4-4E47-BC02-41271B91D631}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BAE4C90-E94B-4A42-913D-D7C77954AD27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BAE4C90-E94B-4A42-913D-D7C77954AD27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BAE4C90-E94B-4A42-913D-D7C77954AD27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BAE4C90-E94B-4A42-913D-D7C77954AD27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,5 +62,7 @@ Global
 		{841C4B00-F798-4E1E-BEBB-ADA810D85C0E} = {4EC91F9B-7FE1-403F-81A2-3DD4E2EEB459}
 		{67D85270-388E-4D95-951B-67C8F3ADAE53} = {4EC91F9B-7FE1-403F-81A2-3DD4E2EEB459}
 		{E7AA76D6-B29E-4F79-9123-7E3C802BFBBD} = {4EC91F9B-7FE1-403F-81A2-3DD4E2EEB459}
+		{058AEF85-A0F4-4E47-BC02-41271B91D631} = {4EC91F9B-7FE1-403F-81A2-3DD4E2EEB459}
+		{6BAE4C90-E94B-4A42-913D-D7C77954AD27} = {4EC91F9B-7FE1-403F-81A2-3DD4E2EEB459}
 	EndGlobalSection
 EndGlobal

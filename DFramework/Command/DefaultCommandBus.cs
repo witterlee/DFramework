@@ -25,14 +25,20 @@ namespace DFramework
         {
             Check.Argument.IsNotNull(cmd, "cmd");
 
+            this.SendAsync(cmd).Wait();
+        }
+        public virtual async Task SendAsync<TCommand>(TCommand cmd) where TCommand : ICommand
+        {
+            Check.Argument.IsNotNull(cmd, "cmd");
+
             try
             {
                 var executor = this._executorContainer.FindExecutor<TCommand>();
 
                 if (executor == null)
-                    throw new UnknowExecption("Faile to find " + typeof(TCommand).Name + "'s executor."); 
+                    throw new UnknowExecption("Faile to find " + typeof(TCommand).Name + "'s executor.");
 
-                executor.Execute(cmd);
+                await executor.ExecuteAsync(cmd);
             }
             catch (IoCException)
             {
@@ -52,7 +58,5 @@ namespace DFramework
                 throw ex;
             }
         }
-
-
     }
 }
