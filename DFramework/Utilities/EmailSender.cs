@@ -61,12 +61,13 @@ namespace DFramework.Utilities
             }
         }
 
-        public static void SendMailAsync(string toAddress, string subject, string body)
+        public static Task SendMailAsync(string toAddress, string subject, string body)
         {
-            Task.Factory.StartNew(() => SendMail(toAddress, subject, body))
-                        .ContinueWith(t =>
+            return Task.Factory
+                       .StartNew(() => SendMail(toAddress, subject, body))
+                       .ContinueWith(t =>
                         {
-                            Log.Error("   email to {0} failed，title {1}-the email content is '{2}'.", toAddress, subject, body);
+                            Log.Error("email to {0} failed，title {1}-the email content is '{2}'.", toAddress, subject, body);
                         }, TaskContinuationOptions.OnlyOnFaulted);
         }
 

@@ -25,9 +25,10 @@ namespace DFramework
         {
             Check.Argument.IsNotNull(cmd, "cmd");
 
-            this.SendAsync(cmd).Wait();
+            this.SendAsync(cmd).Wait(100);
+
         }
-        public virtual async Task SendAsync<TCommand>(TCommand cmd) where TCommand : ICommand
+        public virtual Task SendAsync<TCommand>(TCommand cmd) where TCommand : ICommand
         {
             Check.Argument.IsNotNull(cmd, "cmd");
 
@@ -38,7 +39,7 @@ namespace DFramework
                 if (executor == null)
                     throw new UnknowExecption("Faile to find " + typeof(TCommand).Name + "'s executor.");
 
-                await executor.ExecuteAsync(cmd);
+                return executor.ExecuteAsync(cmd);
             }
             catch (IoCException)
             {

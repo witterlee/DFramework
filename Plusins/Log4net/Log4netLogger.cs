@@ -33,7 +33,7 @@ namespace DFramework.Log4net
                 BasicConfigurator.Configure(new ConsoleAppender { Layout = new PatternLayout() });
             }
 
-            _logger = LogManager.GetLogger("FC.Logger");
+            _logger = LogManager.GetLogger("DFramework.Logger");
         }
         #endregion
 

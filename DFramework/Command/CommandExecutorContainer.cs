@@ -13,8 +13,8 @@ namespace DFramework
     /// </summary>
     public class CommandExecutorContainer : ICommandExecutorContainer
     {
-        private object _writeLock = new object();
-        private Dictionary<Type, ICommandExecutor> _executorForCommand = new Dictionary<Type, ICommandExecutor>();
+        private readonly object _writeLock = new object();
+        private readonly Dictionary<Type, ICommandExecutor> _executorForCommand = new Dictionary<Type, ICommandExecutor>();
 
 
         public ICommandExecutor<TCommand> FindExecutor<TCommand>() where TCommand : ICommand
@@ -32,15 +32,15 @@ namespace DFramework
 
             if (!executorType.IsClass || executorType.IsAbstract || executorType.IsGenericType || executorType.IsInterface) return;
 
-            var executorTypes = TypeUtil.GetGenericArgumentTypes(executorType, typeof(ICommandExecutor<>));
+            var commandTypes = TypeUtil.GetGenericArgumentTypes(executorType, typeof(ICommandExecutor<>));
 
-            lock (this._writeLock)
-            {
-                foreach (var execType in executorTypes)
+            if (commandTypes != null && commandTypes.Any())
+                lock (this._writeLock)
                 {
-                    this._executorForCommand[execType] = (ICommandExecutor)Activator.CreateInstance(execType);
+
+                    this._executorForCommand[commandTypes.First()] = (ICommandExecutor)Activator.CreateInstance(executorType);
+
                 }
-            }
         }
 
         public void RegisterExecutors(Assembly assemblyToScan)
