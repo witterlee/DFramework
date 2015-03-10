@@ -8,9 +8,6 @@ namespace DFramework
     public class DEnvironment
     {
         public static DEnvironment Instance { get; private set; }
-         
-
-        //public static ICommandBus DefaultCommandBus { get { return IoC.Resolve<ICommandBus>(); } }
 
         private DEnvironment() { }
 
@@ -21,7 +18,7 @@ namespace DFramework
                 throw new Exception("Could not initialize twice");
             }
 
-            Instance = new DEnvironment();                                        
+            Instance = new DEnvironment();
 
             return Instance;
         }

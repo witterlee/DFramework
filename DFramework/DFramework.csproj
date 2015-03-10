@@ -87,7 +87,6 @@
     <Compile Include="Infrastructure\Serializing\IJsonSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\CheckHelper.cs" />
-    <Compile Include="Utilities\ConfigurationManagerWrapper.cs" />
     <Compile Include="Utilities\CryptoHelper.cs" />
     <Compile Include="Utilities\DeepCloneHelper.cs" />
     <Compile Include="Utilities\EmailSender.cs" />

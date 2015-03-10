@@ -30,7 +30,8 @@ namespace Sample
                         .UseAutofac()
                         .UseCouchbaseCache(clientConfig, "datastore")
                         .UseLog4net()
-                        .UseDefaultCommandBus(GetAllAssembly());
+                        .UseDefaultCommandBus(GetAllAssembly())
+                        .Start();
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

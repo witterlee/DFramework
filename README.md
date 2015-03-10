@@ -16,7 +16,8 @@ Log     --> Log4net
  .UseAutofac()
  .UseCouchbaseCache(clientConfig, "datastore")
  .UseLog4net()
- .UseDefaultCommandBus(GetAllAssembly());
+ .UseDefaultCommandBus(GetAllAssembly())
+ .Start();
 ```
 
 ####controller
