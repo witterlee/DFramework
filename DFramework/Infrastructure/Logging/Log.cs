@@ -30,9 +30,9 @@ namespace DFramework
             Check.Argument.IsNotEmpty(format, "format");
 
             if (args == null || args.Length == 0)
-                InnerLogger.Info(format);
+                Info(format);
             else if (InnerLogger != null)
-                InnerLogger.Info(Format(format,args));
+                InnerLogger.Info(Format(format, args));
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -48,23 +48,23 @@ namespace DFramework
         public static void Debug(string format, params object[] args)
         {
             Check.Argument.IsNotEmpty(format, "format");
-             
+
             if (args == null || args.Length == 0)
-                InnerLogger.Debug(format);
+                Debug(format);
             else if (InnerLogger != null)
-                InnerLogger.Debug(Format(format,args));
+                InnerLogger.Debug(Format(format, args));
         }
 
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void Warn(string format, params object[] args)
         {
-            Check.Argument.IsNotEmpty(format, "format"); 
+            Check.Argument.IsNotEmpty(format, "format");
 
             if (args == null || args.Length == 0)
-                InnerLogger.Warn(format);
+                Warn(format);
             else if (InnerLogger != null)
-                InnerLogger.Warn(Format(format,args));
+                InnerLogger.Warn(Format(format, args));
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -80,12 +80,12 @@ namespace DFramework
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void Error(string format, params object[] args)
         {
-            Check.Argument.IsNotEmpty(format, "format"); 
+            Check.Argument.IsNotEmpty(format, "format");
 
             if (args == null || args.Length == 0)
-                InnerLogger.Error(format);
+                Error(format);
             else if (InnerLogger != null)
-                InnerLogger.Error(Format(format,args));
+                InnerLogger.Error(Format(format, args));
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -104,9 +104,9 @@ namespace DFramework
             Check.Argument.IsNotEmpty(format, "format");
 
             if (args == null || args.Length == 0)
-                InnerLogger.Fatal(format);
+                Fatal(format);
             else if (InnerLogger != null)
-                InnerLogger.Fatal(Format(format,args));
+                InnerLogger.Fatal(Format(format, args));
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
