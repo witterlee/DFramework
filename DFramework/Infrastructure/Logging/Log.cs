@@ -1,4 +1,6 @@
 ﻿
+using System.Linq;
+
 namespace DFramework
 {
     using System;
@@ -96,7 +98,9 @@ namespace DFramework
         {
             Check.Argument.IsNotEmpty(format, "format");
 
-            return format.FormatWith(args);
+            if (args != null && args.Any())
+                return format.FormatWith(args);
+            else return format;
         }
     }
 }
