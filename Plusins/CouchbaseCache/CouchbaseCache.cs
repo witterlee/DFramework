@@ -66,13 +66,7 @@ namespace DFramework.CouchbaseCache
                 value = default(T);
 
             return result.Success;
-        }
-
-        public void Add<T>(string key, T value)
-        {
-            this._bucket.Upsert<T>(key, value);
-        }
-
+        } 
         public void Add<T>(string key, T value, DateTime absoluteExpiration)
         {
             var timespan = absoluteExpiration - DateTime.Now;
