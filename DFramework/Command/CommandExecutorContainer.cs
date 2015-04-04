@@ -32,14 +32,16 @@ namespace DFramework
 
             if (!executorType.IsClass || executorType.IsAbstract || executorType.IsGenericType || executorType.IsInterface) return;
 
-            var commandTypes = TypeUtil.GetGenericArgumentTypes(executorType, typeof(ICommandExecutor<>));
+            var executorTypes = TypeUtil.GetGenericArgumentTypes(executorType, typeof(ICommandExecutor<>));
 
-            if (commandTypes != null && commandTypes.Any())
+            if (executorTypes != null && executorTypes.Any())
                 lock (this._writeLock)
                 {
-
-                    this._executorForCommand[commandTypes.First()] = (ICommandExecutor)Activator.CreateInstance(executorType);
-
+                    var executorInstance = (ICommandExecutor)Activator.CreateInstance(executorType);
+                    foreach (var execType in executorTypes)
+                    {
+                        this._executorForCommand[execType] = executorInstance;
+                    }
                 }
         }
 
