@@ -74,7 +74,7 @@
       <Project>{841c4b00-f798-4e1e-bebb-ada810d85c0e}</Project>
       <Name>DFramework.Autofac</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Memcache\DFramework.Memcached.csproj">
+    <ProjectReference Include="..\..\Memcached\DFramework.Memcached.csproj">
       <Project>{c82814dd-9f00-4263-97fb-6fce8b8bdf76}</Project>
       <Name>DFramework.Memcached</Name>
     </ProjectReference>

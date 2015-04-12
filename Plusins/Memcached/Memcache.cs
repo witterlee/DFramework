@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using DFramework.Utilities;
 using Enyim.Caching;
 using Enyim.Caching.Configuration;
 using Enyim.Caching.Memcached;
@@ -14,6 +16,25 @@ namespace DFramework.Plusins.Memcached
     {
         private readonly MemcachedClient _memClient;
 
+        public Memcache(IPEndPoint[] servers)
+        {
+            MemcachedClientConfiguration memConfig = new MemcachedClientConfiguration();
+
+            Check.Argument.IsNotEmpty(servers, "servers");
+
+            servers.ForEach(s => memConfig.Servers.Add(s));
+            memConfig.Protocol = MemcachedProtocol.Binary;
+            memConfig.SocketPool.MinPoolSize = 5;
+            memConfig.SocketPool.MaxPoolSize = 200;
+            this._memClient = new MemcachedClient(memConfig);
+        }
+        /// <summary>
+        /// Support Aliyun OCS
+        /// </summary>
+        /// <param name="memcacheServer">OCS server Ip</param>
+        /// <param name="zone"></param>
+        /// <param name="ocsUser"></param>
+        /// <param name="ocsPassword"></param>
         public Memcache(string memcacheServer, string zone = "", string ocsUser = "", string ocsPassword = "")
         {
             MemcachedClientConfiguration memConfig = new MemcachedClientConfiguration();
@@ -47,7 +68,7 @@ namespace DFramework.Plusins.Memcached
             try
             {
                 value = this._memClient.Get<object>(key);
-                result = true;
+                result = value != null;
             }
             catch (Exception ex)
             {
@@ -68,7 +89,7 @@ namespace DFramework.Plusins.Memcached
             try
             {
                 value = this._memClient.Get<T>(key);
-                result = true;
+                result = value != null;
             }
             catch (Exception ex)
             {
