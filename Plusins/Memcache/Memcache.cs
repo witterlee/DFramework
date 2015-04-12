@@ -21,15 +21,15 @@ namespace DFramework.Plusins.Memcached
             IPAddress newaddress = IPAddress.Parse(memcacheServer);
             IPEndPoint ipEndPoint = new IPEndPoint(newaddress, 11211);
 
-            
+
             memConfig.Servers.Add(ipEndPoint);
             memConfig.Protocol = MemcachedProtocol.Binary;
             if (!string.IsNullOrEmpty(ocsUser) && !string.IsNullOrEmpty(ocsPassword))
             {
                 memConfig.Authentication.Type = typeof(PlainTextAuthenticator);
                 memConfig.Authentication.Parameters["zone"] = zone;
-                memConfig.Authentication.Parameters["userName"] = "username";
-                memConfig.Authentication.Parameters["password"] = "password";
+                memConfig.Authentication.Parameters["userName"] = ocsUser;
+                memConfig.Authentication.Parameters["password"] = ocsPassword;
             }
             memConfig.SocketPool.MinPoolSize = 5;
             memConfig.SocketPool.MaxPoolSize = 200;
