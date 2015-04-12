@@ -48,7 +48,7 @@ public ActionResult Index()
 
 ```csharp
 [HttpGet]
-public Task<ActionResult> Index()
+public async Task<ActionResult> Index()
 {
     var cmd = new TestReturnResultCommand("nameA", "pwdB");
     await this.CommandBus.SendAsync(cmd);
