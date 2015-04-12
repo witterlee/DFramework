@@ -3,6 +3,7 @@ a command bus framework,this framework have three plugins
 
 IOC     --> Autofac plugin   
 Cache   --> Couchbase cache   
+Cache   --> Memcached/ali OCS cache  
 Log     --> Log4net   
 
 ----------
@@ -11,10 +12,23 @@ Log     --> Log4net
 ##Use Case
 ----------
 ####application start
+#####Couchbase cache
 ```csharp
  DEnvironment.Initialize()
  .UseAutofac()
  .UseCouchbaseCache(clientConfig, "datastore")
+ .UseLog4net()
+ .UseDefaultCommandBus(GetAllAssembly())
+ .Start();
+```
+#####Memcached
+```csharp
+
+ //IPAddress newaddress = Dns.GetHostByName("xxxxxxxx.ocs.aliyuncs.com").AddressList.FirstOrDefault();
+ DEnvironment.Initialize()
+ .UseAutofac()
+ .UseMemcached("memcached server") //not support memcached cluster now, will support later
+ //.UseMemcached(newaddress.ToString(),ocsUser: "xxx", ocsPassword: "xxx")
  .UseLog4net()
  .UseDefaultCommandBus(GetAllAssembly())
  .Start();
