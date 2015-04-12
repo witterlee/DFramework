@@ -46,31 +46,73 @@ public ActionResult Index()
 }
 ```
 
+```csharp
+[HttpGet]
+public Task<ActionResult> Index()
+{
+    var cmd = new TestReturnResultCommand("nameA", "pwdB");
+    await this.CommandBus.SendAsync(cmd);
+    var reuslt=cmd.CommandResult;
+    return View();
+}
+```
+
 
 ####command
+```
+ public class HasReturnValueCommand<T> : DFramework.Command
+ {
+     public T CommandResult { get; set; }
+ }
+```
 ```csharp
 public class TestCommand:DFramework.Command
+{
+    public TestCommand(string name, string password)
     {
-        public TestCommand(string name, string password)
-        {
-            this.Name = name;
-            this.Password = password;
-        }
-
-        public string Name { get; set; }
-        public string Password { get; set; }
+        this.Name = name;
+        this.Password = password;
     }
+
+    public string Name { get; set; }
+    public string Password { get; set; }
+}
+```
+
+```csharp
+public class TestReturnResultCommand:HasReturnValueCommand<T>
+{
+    public TestReturnResultCommand(string name, string password)
+    {
+        this.Name = name;
+        this.Password = password;
+    }
+
+    public string Name { get; set; }
+    public string Password { get; set; }
+    public T CommandResult { get; set; }
+}
 ```
 
 ####command-executor
 ```csharp
- public class SampleCommandExecutor : ICommandExecutor<TestCommand>
+ public class SampleCommandExecutor : ICommandExecutor<TestCommand>,
+                                      ICommandExecutor<TestReturnResultCommand>
     {
         public Task ExecuteAsync(TestCommand cmd)
         {
             return Task.Factory.StartNew(() =>
              {
                  Console.WriteLine("TestCommand Executed.");
+             });
+        }
+
+        public Task ExecuteAsync(TestReturnResultCommand cmd)
+        {
+            return Task.Factory.StartNew(() =>
+             {
+                 Console.WriteLine("TestCommand Executed.");
+                 cmd.CommandResult=default
              });
         }
     }
