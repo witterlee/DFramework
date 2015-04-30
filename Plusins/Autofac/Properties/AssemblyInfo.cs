@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("DFramework.Autofac")]
+[assembly: AssemblyTitle("DFramework.Plusins.Autofac")]
 [assembly: AssemblyDescription("DFramework's IOC Plusin")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Witte Lee")]
