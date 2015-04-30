@@ -18,4 +18,15 @@ namespace Sample.Command
         public string Name { get; set; }
         public string Password { get; set; }
     }
+    public class TestHasReturnValueCommand : DFramework.Command<int>
+    {
+        public TestHasReturnValueCommand(string name, string password)
+        {
+            this.Name = name;
+            this.Password = password;
+        }
+
+        public string Name { get; set; }
+        public string Password { get; set; }
+    }
 }

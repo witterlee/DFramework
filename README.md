@@ -31,7 +31,7 @@ Log     --> Log4net
  //.UseMemcached(newaddress.ToString(),ocsUser: "xxx", ocsPassword: "xxx")
  .UseLog4net()
  .UseDefaultCommandBus(GetAllAssembly())
- .Start();
+ .UseDefaultJsonSerialaizer();
 ```
 
 ####controller
@@ -50,21 +50,27 @@ public ActionResult Index()
 [HttpGet]
 public async Task<ActionResult> Index()
 {
-    var cmd = new TestReturnResultCommand("nameA", "pwdB");
+    var cmd = new TestCommand("nameA", "pwdB");
     await this.CommandBus.SendAsync(cmd);
     var reuslt=cmd.CommandResult;
     return View();
 }
 ```
 
+```csharp
+[HttpGet]
+public async Task<ActionResult> Index()
+{
+    var cmd = new TestHasReturnValueCommand("nameA", "pwdB");
+    await this.CommandBus.SendAsync(cmd);
+    var reuslt=cmd.CommandResult;
+    Console.WriteLine(result.ToString());
+    return View();
+}
+```
+
 
 ####command
-```
- public class HasReturnValueCommand<T> : DFramework.Command
- {
-     public T CommandResult { get; set; }
- }
-```
 ```csharp
 public class TestCommand:DFramework.Command
 {
@@ -80,7 +86,7 @@ public class TestCommand:DFramework.Command
 ```
 
 ```csharp
-public class TestReturnResultCommand:HasReturnValueCommand<T>
+public class TestHasReturnValueCommand:Command<int>
 {
     public TestReturnResultCommand(string name, string password)
     {
@@ -89,15 +95,14 @@ public class TestReturnResultCommand:HasReturnValueCommand<T>
     }
 
     public string Name { get; set; }
-    public string Password { get; set; }
-    public T CommandResult { get; set; }
+    public string Password { get; set; } 
 }
 ```
 
 ####command-executor
 ```csharp
  public class SampleCommandExecutor : ICommandExecutor<TestCommand>,
-                                      ICommandExecutor<TestReturnResultCommand>
+                                      ICommandExecutor<TestHasReturnValueCommand>
     {
         public Task ExecuteAsync(TestCommand cmd)
         {
@@ -107,12 +112,12 @@ public class TestReturnResultCommand:HasReturnValueCommand<T>
              });
         }
 
-        public Task ExecuteAsync(TestReturnResultCommand cmd)
+        public async Task ExecuteAsync(TestReturnResultCommand cmd)
         {
-            return Task.Factory.StartNew(() =>
+             await Task.Factory.StartNew(() =>
              {
-                 Console.WriteLine("TestCommand Executed.");
-                 cmd.CommandResult=default
+                 Console.WriteLine("TestHasReturnValueCommand Executed.");
+                 cmd.CommandResult=1;
              });
         }
     }
