@@ -19,7 +19,7 @@ Log     --> Log4net
  .UseCouchbaseCache(clientConfig, "datastore")
  .UseLog4net()
  .UseDefaultCommandBus(GetAllAssembly())
- .Start();
+ .UseDefaultJsonSerialaizer();
 ```
 #####Memcached
 ```csharp
