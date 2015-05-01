@@ -1,5 +1,5 @@
 #DFramework    
-a command bus framework,this framework have three plugins
+a command bus framework,this framework have some plugins
 
 IOC     --> Autofac plugin   
 Cache   --> Couchbase cache   
