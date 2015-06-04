@@ -1,10 +1,11 @@
 ﻿using Microsoft.Owin;
 using Owin;
+using Sample;
 
-[assembly: OwinStartupAttribute(typeof(Sample.Startup))]
+[assembly: OwinStartup(typeof(Startup))]
 namespace Sample
 {
-    public partial class Startup
+    public class Startup
     {
         public void Configuration(IAppBuilder app)
         {
