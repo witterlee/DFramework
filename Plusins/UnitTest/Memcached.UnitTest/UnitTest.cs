@@ -21,7 +21,7 @@ namespace Memcached.UnitTest
                 {
                     if (!Inited)
                     {
-                        DEnvironment.Initialize().UseAutofac().UseMemcached("192.168.2.10");
+                        DEnvironment.Initialize().UseAutofac().UseMemcached("127.0.0.1");
                         Inited = true;
                     }
                 }

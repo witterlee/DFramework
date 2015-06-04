@@ -23,7 +23,7 @@ namespace DFramework
             return Instance;
         }
 
-        public void UseDefaultJsonSerialaizer()
+        public void UseDefaultJsonSerializer()
         {
             IoC.Register<IJsonSerializer, JsonSerializer>(LifeStyle.Singleton);
         }

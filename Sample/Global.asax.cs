@@ -31,7 +31,7 @@ namespace Sample
                         .UseCouchbaseCache(clientConfig, "datastore")
                         .UseLog4net()
                         .UseDefaultCommandBus(GetAllAssembly())
-                        .UseDefaultJsonSerialaizer();
+                        .UseDefaultJsonSerializer();
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
