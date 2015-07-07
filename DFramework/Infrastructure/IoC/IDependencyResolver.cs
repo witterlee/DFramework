@@ -1,8 +1,9 @@
 ﻿
+using System;
+using System.Collections.Generic;
+
 namespace DFramework
 {
-    using System.Collections.Generic;
-    using System;
     /// <summary>
     /// 依赖反转接口
     /// </summary>

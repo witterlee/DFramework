@@ -35,7 +35,7 @@ namespace DFramework
             string methodName = order.ToLower().Equals("desc") ? "OrderByDescending" : "OrderBy";
 
             MethodCallExpression resultExp = Expression.Call(typeof(Queryable), methodName,
-                                                             new Type[] { type, property.PropertyType },
+                                                             new[] { type, property.PropertyType },
                                                                            source.Expression,
                                                                            Expression.Quote(orderByExpression));
             return source.Provider.CreateQuery<T>(resultExp);

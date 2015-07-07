@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace DFramework
 {
@@ -40,7 +39,7 @@ namespace DFramework
         /// <returns></returns>
         public static DateTime ToLocalDateTime(this int target)
         {
-            DateTime dtDateTime = MinDate.AddTicks((long)target * (long)10000000);
+            DateTime dtDateTime = MinDate.AddTicks(target * (long)10000000);
 
             return dtDateTime.ToLocalTime();
         }
@@ -52,7 +51,7 @@ namespace DFramework
         /// <returns></returns>
         public static DateTime ToUtcDateTime(this int target)
         {
-            DateTime dtDateTime = MinDate.AddTicks((long)target * (long)10000000);
+            DateTime dtDateTime = MinDate.AddTicks(target * (long)10000000);
 
             return dtDateTime;
         }
@@ -66,7 +65,7 @@ namespace DFramework
         {
             DateTime dtDateTime;
             if (target > 0)
-                dtDateTime = MinDate.AddTicks((long)target * (long)10000000);
+                dtDateTime = MinDate.AddTicks(target * (long)10000000);
 
             else
             {
@@ -84,7 +83,7 @@ namespace DFramework
         {
             DateTime dtDateTime;
             if (target > 0)
-                dtDateTime = MinDate.AddTicks((long)target * (long)10000000);
+                dtDateTime = MinDate.AddTicks(target * (long)10000000);
 
             else
             {

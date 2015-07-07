@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Net.Mail;
-using System.IO;
-using DFramework;
 using System.Net;
-using System.Threading;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace DFramework.Utilities
 {
     public static class EmailHelper
     {
-        static bool _configed = false;
+        static bool _configed;
         static string _emailServer;
         static string _webmasterEmail;
         static string _emailAccount;
@@ -48,7 +45,7 @@ namespace DFramework.Utilities
                 SmtpClient smtp = new SmtpClient
                 {
                     Host = _emailServer,
-                    EnableSsl = false
+                    EnableSsl = true
                 };
 
                 smtp.Credentials = new NetworkCredential(_emailAccount, _emailPassword);
@@ -63,12 +60,43 @@ namespace DFramework.Utilities
 
         public static Task SendMailAsync(string toAddress, string subject, string body)
         {
+            if (!_configed)
+                throw new Exception("Email Sender must config before use.");
+
+            SmtpClient smtp = new SmtpClient
+            {
+                Host = _emailServer,
+                EnableSsl = true
+            };
+
+            smtp.Credentials = new NetworkCredential(_emailAccount, _emailPassword);
+            MailMessage mail = BuildMessageWith(_webmasterEmail, toAddress, subject, body);
+            return SendMailAsync(mail);
+        }
+
+        public static Task SendMailAsync(MailMessage mail)
+        {
+            if (!_configed)
+                throw new Exception("Email Sender must config before use.");
+
             return Task.Factory
-                       .StartNew(() => SendMail(toAddress, subject, body))
+                       .StartNew(() =>
+                       {
+                           SmtpClient smtp = new SmtpClient
+                           {
+                               Host = _emailServer,
+                               EnableSsl = true
+                           };
+
+                           smtp.Credentials = new NetworkCredential(_emailAccount, _emailPassword);
+
+                           smtp.SendAsync(mail, null);
+                       })
                        .ContinueWith(t =>
-                        {
-                            Log.Error("email to {0} failed，title {1}-the email content is '{2}'.", toAddress, subject, body);
-                        }, TaskContinuationOptions.OnlyOnFaulted);
+                       {
+                           Log.Error("email to {0} failed，title {1}-the email content is '{2}'.", mail.To, mail.Subject, mail.Body);
+                       }, TaskContinuationOptions.OnlyOnFaulted);
+
         }
 
         #region 私有方法
@@ -123,7 +151,7 @@ namespace DFramework.Utilities
                 From = new MailAddress(fromAddress),
                 Subject = subject,
                 Body = body,
-                IsBodyHtml = true,
+                IsBodyHtml = true
             };
 
             string[] tos = toAddress.Split(';');

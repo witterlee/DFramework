@@ -1,13 +1,11 @@
 ﻿
+using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using DFramework.Utilities;
 
 namespace DFramework
 {
-    using System;
-    using System.Diagnostics;
-    using System.Runtime.CompilerServices;
-    using DFramework.Utilities;
-
     public class Log
     {
         private static ILog InnerLogger
@@ -100,7 +98,7 @@ namespace DFramework
 
             if (args != null && args.Any())
                 return format.FormatWith(args);
-            else return format;
+            return format;
         }
     }
 }

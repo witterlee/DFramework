@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DFramework;
-
-namespace DFramework.Log4net
+﻿namespace DFramework.Log4net
 {
     public static class DFrameworkLog4netExtension
     {

@@ -1,9 +1,9 @@
 ﻿
+using System.Collections.Generic;
+using System.Diagnostics;
+
 namespace DFramework
 {
-    using System.Collections.Generic;
-    using System.Diagnostics;
-
     public static class CollectionExtension
     { 
         [DebuggerStepThrough]

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DFramework
 {
@@ -14,8 +11,7 @@ namespace DFramework
 
             if (sourceNum < 0)
                 return Math.Truncate(sourceNum) + Math.Ceiling((sourceNum - Math.Truncate(sourceNum)) * sp) / sp;
-            else
-                return Math.Truncate(sourceNum) + Math.Floor((sourceNum - Math.Truncate(sourceNum)) * sp) / sp;
+            return Math.Truncate(sourceNum) + Math.Floor((sourceNum - Math.Truncate(sourceNum)) * sp) / sp;
         }
 
         /// <summary>
@@ -25,7 +21,7 @@ namespace DFramework
         /// <returns></returns>
         public static DateTime ToLocalDateTime(this double target)
         {
-            DateTime dtDateTime = MinDate.AddTicks((long)target * (long)10000000);
+            DateTime dtDateTime = MinDate.AddTicks((long)target * 10000000);
 
             return dtDateTime.ToLocalTime();
         }
@@ -37,7 +33,7 @@ namespace DFramework
         /// <returns></returns>
         public static DateTime ToUtcDateTime(this double target)
         {
-            DateTime dtDateTime = MinDate.AddTicks((long)target * (long)10000000);
+            DateTime dtDateTime = MinDate.AddTicks((long)target * 10000000);
 
             return dtDateTime;
         }
@@ -51,7 +47,7 @@ namespace DFramework
         {
             DateTime dtDateTime;
             if (target > 0)
-                dtDateTime = MinDate.AddTicks((long)target * (long)10000000);
+                dtDateTime = MinDate.AddTicks((long)target * 10000000);
 
             else
             {
@@ -69,7 +65,7 @@ namespace DFramework
         {
             DateTime dtDateTime;
             if (target > 0)
-                dtDateTime = MinDate.AddTicks((long)target * (long)10000000);
+                dtDateTime = MinDate.AddTicks((long)target * 10000000);
 
             else
             {

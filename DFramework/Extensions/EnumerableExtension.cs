@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
 
 namespace DFramework
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq.Expressions;
-    using System.Reflection;
-
     public static class EnumerableExtension
     {
         [DebuggerStepThrough]

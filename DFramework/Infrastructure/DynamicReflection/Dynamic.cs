@@ -2297,7 +2297,7 @@ namespace DFramework.DynamicReflection
                     if (constructorInfo == null)
                         throw new ArgumentNullException("constructorInfo");
 
-                    Type[] argumentTypes = new Type[] { typeof(object[]) };
+                    Type[] argumentTypes = { typeof(object[]) };
 
                     DynamicMethod dm = new DynamicMethod(constructorInfo.Name, MethodAttributes.Public | MethodAttributes.Static, CallingConventions.Standard
                                                         , typeof(T), argumentTypes, typeof(T), true);
@@ -2333,7 +2333,7 @@ namespace DFramework.DynamicReflection
                                                         , memberType, fieldInfo.FieldType, typeof(T), fieldInfo.Name));
 
                     int argumentOffset = fieldInfo.IsStatic ? 0 : 1;
-                    Type[] argumentTypes = fieldInfo.IsStatic ? new Type[] { typeof(object[]) } : new Type[] { typeof(T), typeof(object[]) };
+                    Type[] argumentTypes = fieldInfo.IsStatic ? new[] { typeof(object[]) } : new[] { typeof(T), typeof(object[]) };
 
                     DynamicMethod dm = new DynamicMethod(fieldInfo.Name, MethodAttributes.Public | MethodAttributes.Static, CallingConventions.Standard
                                                         , memberType, argumentTypes, typeof(T), true);
@@ -2373,7 +2373,7 @@ namespace DFramework.DynamicReflection
                                                         , returnType, methodInfo.ReturnType, typeof(T), methodInfo.Name));
 
                     int argumentOffset = methodInfo.IsStatic ? 0 : 1;
-                    Type[] argumentTypes = methodInfo.IsStatic ? new Type[] { typeof(object[]) } : new Type[] { typeof(T), typeof(object[]) };
+                    Type[] argumentTypes = methodInfo.IsStatic ? new[] { typeof(object[]) } : new[] { typeof(T), typeof(object[]) };
 
                     DynamicMethod dm = new DynamicMethod(methodInfo.Name, MethodAttributes.Public | MethodAttributes.Static, CallingConventions.Standard
                                                         , returnType, argumentTypes, typeof(T), true);
@@ -2462,7 +2462,7 @@ namespace DFramework.DynamicReflection
                             /// <returns>A delegate that looks like StaticFuncParms&lt;T, TRet&gt;</returns>
                             public static D CreateDelegate(RuntimeFieldHandle fieldHandle)
                             {
-                                FieldInfo fieldInfo = (FieldInfo)FieldInfo.GetFieldFromHandle(fieldHandle);
+                                FieldInfo fieldInfo = FieldInfo.GetFieldFromHandle(fieldHandle);
                                 return CreateDelegate(fieldInfo);
                             }
 
@@ -2491,7 +2491,7 @@ namespace DFramework.DynamicReflection
                             /// <returns>A delegate that looks like StaticProcParams&lt;T&gt;</returns>
                             public static D CreateDelegate(RuntimeFieldHandle fieldHandle)
                             {
-                                FieldInfo fieldInfo = (FieldInfo)FieldInfo.GetFieldFromHandle(fieldHandle);
+                                FieldInfo fieldInfo = FieldInfo.GetFieldFromHandle(fieldHandle);
                                 return CreateDelegate(fieldInfo);
                             }
 
@@ -2681,7 +2681,7 @@ namespace DFramework.DynamicReflection
                             /// <returns>A delegate that looks like Func&lt;T, TRet&gt;</returns>
                             public static D CreateDelegate(RuntimeFieldHandle fieldHandle)
                             {
-                                FieldInfo fieldInfo = (FieldInfo)FieldInfo.GetFieldFromHandle(fieldHandle);
+                                FieldInfo fieldInfo = FieldInfo.GetFieldFromHandle(fieldHandle);
                                 return CreateDelegate(fieldInfo);
                             }
 
@@ -2710,7 +2710,7 @@ namespace DFramework.DynamicReflection
                             /// <returns>A delegate that looks like ProcParams&lt;T&gt;</returns>
                             public static D CreateDelegate(RuntimeFieldHandle fieldHandle)
                             {
-                                FieldInfo fieldInfo = (FieldInfo)FieldInfo.GetFieldFromHandle(fieldHandle);
+                                FieldInfo fieldInfo = FieldInfo.GetFieldFromHandle(fieldHandle);
                                 return CreateDelegate(fieldInfo);
                             }
 
@@ -3102,7 +3102,7 @@ namespace DFramework.DynamicReflection
                             /// <returns>A delegate that looks like StaticFunc&lt;T, VF&gt;</returns>
                             public static D CreateDelegate(RuntimeFieldHandle fieldHandle)
                             {
-                                FieldInfo fieldInfo = (FieldInfo)FieldInfo.GetFieldFromHandle(fieldHandle);
+                                FieldInfo fieldInfo = FieldInfo.GetFieldFromHandle(fieldHandle);
                                 return CreateDelegate(fieldInfo);
                             }
 
@@ -3124,7 +3124,7 @@ namespace DFramework.DynamicReflection
                             public static D CreateDelegate(FieldInfo fieldInfo)
                             {
                                 // for a static field Set pass just the field type VF...
-                                return Build(typeof(void), fieldInfo, false, new Type[] { typeof(VF) });
+                                return Build(typeof(void), fieldInfo, false, new[] { typeof(VF) });
                             }
 
                             /// <summary>Builds a delegate for a static field setter from a RuntimeFieldHandle</summary>
@@ -3132,7 +3132,7 @@ namespace DFramework.DynamicReflection
                             /// <returns>A delegate that looks like StaticProc&lt;T, VF&gt;</returns>
                             public static D CreateDelegate(RuntimeFieldHandle fieldHandle)
                             {
-                                FieldInfo fieldInfo = (FieldInfo)FieldInfo.GetFieldFromHandle(fieldHandle);
+                                FieldInfo fieldInfo = FieldInfo.GetFieldFromHandle(fieldHandle);
                                 return CreateDelegate(fieldInfo);
                             }
 
@@ -3361,7 +3361,7 @@ namespace DFramework.DynamicReflection
                             public static D CreateDelegate(FieldInfo fieldInfo)
                             {
                                 // for an instance field Get ignore the generic types entirely
-                                return Build(typeof(VF), fieldInfo, true, new Type[] { typeof(T) });
+                                return Build(typeof(VF), fieldInfo, true, new[] { typeof(T) });
                             }
 
                             /// <summary>Builds a delegate for an instance field getter from a RuntimeFieldHandle</summary>
@@ -3369,7 +3369,7 @@ namespace DFramework.DynamicReflection
                             /// <returns>A delegate that looks like Func&lt;T, VF&gt;</returns>
                             public static D CreateDelegate(RuntimeFieldHandle fieldHandle)
                             {
-                                FieldInfo fieldInfo = (FieldInfo)FieldInfo.GetFieldFromHandle(fieldHandle);
+                                FieldInfo fieldInfo = FieldInfo.GetFieldFromHandle(fieldHandle);
                                 return CreateDelegate(fieldInfo);
                             }
 
@@ -3391,7 +3391,7 @@ namespace DFramework.DynamicReflection
                             public static D CreateDelegate(FieldInfo fieldInfo)
                             {
                                 // for an instance field Set pass just the known type...
-                                return Build(typeof(void), fieldInfo, false, new Type[] { typeof(T), typeof(VF) });
+                                return Build(typeof(void), fieldInfo, false, new[] { typeof(T), typeof(VF) });
                             }
 
                             /// <summary>Builds a delegate for an instance field setter from a RuntimeFieldHandle</summary>
@@ -3399,7 +3399,7 @@ namespace DFramework.DynamicReflection
                             /// <returns>A delegate that looks like Proc&lt;T, VF&gt;</returns>
                             public static D CreateDelegate(RuntimeFieldHandle fieldHandle)
                             {
-                                FieldInfo fieldInfo = (FieldInfo)FieldInfo.GetFieldFromHandle(fieldHandle);
+                                FieldInfo fieldInfo = FieldInfo.GetFieldFromHandle(fieldHandle);
                                 return CreateDelegate(fieldInfo);
                             }
 

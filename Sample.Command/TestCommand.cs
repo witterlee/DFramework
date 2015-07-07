@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DFramework;
+﻿using DFramework;
 
 namespace Sample.Command
 {
@@ -18,7 +13,7 @@ namespace Sample.Command
         public string Name { get; set; }
         public string Password { get; set; }
     }
-    public class TestHasReturnValueCommand : DFramework.Command<int>
+    public class TestHasReturnValueCommand : Command<int>
     {
         public TestHasReturnValueCommand(string name, string password)
         {

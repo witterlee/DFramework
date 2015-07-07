@@ -7,7 +7,7 @@ namespace DFramework.Utilities
 {
     public class CryptoHelper
     {
-        private static byte[] _DESSIV = new byte[] { 0x94, 0x67, 0xb9, 0x60, 0x32, 0x7c, 0x30, 0x88 };
+        private static byte[] _DESSIV = { 0x94, 0x67, 0xb9, 0x60, 0x32, 0x7c, 0x30, 0x88 };
 
         public static string Encrypt(string encryptKey, string encodeString)
         {

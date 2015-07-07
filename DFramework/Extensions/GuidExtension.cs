@@ -1,7 +1,8 @@
-﻿namespace DFramework
+﻿using System;
+using System.Diagnostics;
+
+namespace DFramework
 {
-    using System;
-    using System.Diagnostics;
     public static class GuidExtension
     {
         [DebuggerStepThrough]

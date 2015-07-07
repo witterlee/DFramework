@@ -1,10 +1,10 @@
 ﻿
+using System.Collections.Specialized;
+using System.Configuration;
+using System.Diagnostics;
+
 namespace DFramework
 {
-    using System.Collections.Specialized;
-    using System.Configuration;
-    using System.Diagnostics;
-
     public class ConfigurationManagerWrapper
     {
         public static NameValueCollection AppSettings

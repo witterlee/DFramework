@@ -1,9 +1,10 @@
-﻿namespace DFramework.Utilities
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+
+namespace DFramework.Utilities
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
     /// <summary>
     /// 检查器
     /// </summary>

@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using DFramework;
 using DFramework.Autofac;
-using Xunit;
 using DFramework.Memcached;
+using Xunit;
 
 namespace Memcached.UnitTest
 {
 
     public class UnitTest
     {
-        static bool Inited = false;
+        static bool Inited;
         static object _lock = new object();
         public UnitTest()
         {
@@ -34,7 +34,7 @@ namespace Memcached.UnitTest
             var model = new TestModel { Name = "weitaolee", Sex = "male", Age = 25 };
             var key = Guid.NewGuid().Shrink();
 
-            Cache.Add<TestModel>(key, model, TimeSpan.FromSeconds(30));
+            Cache.Add(key, model, TimeSpan.FromSeconds(30));
 
             var cacheModel = Cache.Get<TestModel>(key);
 
@@ -76,7 +76,7 @@ namespace Memcached.UnitTest
         {
             var key = Guid.NewGuid().Shrink();
 
-            Cache.Add<int>(key, 2, TimeSpan.FromSeconds(30));
+            Cache.Add(key, 2, TimeSpan.FromSeconds(30));
 
             var cacheModel = Convert.ToInt32(Cache.Get(key));
 

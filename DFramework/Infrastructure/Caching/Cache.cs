@@ -1,9 +1,10 @@
 ﻿
+using System;
+using System.Diagnostics;
+using DFramework.Utilities;
+
 namespace DFramework
 {
-    using System;
-    using System.Diagnostics;
-    using DFramework.Utilities;
     public static class Cache
     {
         private static ICache _internalCache;
@@ -63,7 +64,7 @@ namespace DFramework
         {
             Check.Argument.IsNotEmpty(key, "key");
 
-            return _internalCache.TryGet<T>(key, out value);
+            return _internalCache.TryGet(key, out value);
         }
 
         /// <summary>

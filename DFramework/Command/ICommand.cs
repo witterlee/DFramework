@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DFramework
 {
@@ -12,9 +9,9 @@ namespace DFramework
     {
         public Command()
         {
-            this.ID = Guid.NewGuid().Shrink();
+            this.Id = Guid.NewGuid().Shrink();
         }
-        public string ID { get; private set; }
+        public string Id { get; private set; }
         public T CommandResult { get; set; }
     }
     /// <summary>
@@ -24,15 +21,15 @@ namespace DFramework
     {
         public Command()
         {
-            this.ID = Guid.NewGuid().Shrink();
+            this.Id = Guid.NewGuid().Shrink();
         }
-        public string ID { get; private set; }
+        public string Id { get; private set; }
     }
     /// <summary>
     /// 命令接口
     /// </summary>
     public interface ICommand
     {
-        string ID { get; }
+        string Id { get; }
     }
 }

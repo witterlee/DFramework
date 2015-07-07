@@ -1,10 +1,7 @@
 ﻿using System;
-using Xunit;
-using DFramework;
 using System.Collections.Generic;
-using System.Linq;
 using DFramework.Utilities;
-using System.Text;
+using Xunit;
 
 namespace DFramework.CouchCache.UnitTest
 {
@@ -54,7 +51,7 @@ namespace DFramework.CouchCache.UnitTest
             for (int i = 0; i < 10000; i++)
             {
                 var key = ms[d.Next(9)] + d.Next(100);
-                var value = KetamaNode.GetPrimary(key.ToString());
+                var value = KetamaNode.GetPrimary(key);
 
                 if (list.ContainsKey(value))
                 {

@@ -143,7 +143,7 @@ namespace DFramework.DynamicReflection
 
         public void TypeFromHandle()
         {
-            MethodInfo translator = typeof(Type).GetMethod("GetTypeFromHandle", BindingFlags.Public | BindingFlags.Static, null, new Type[] { typeof(RuntimeTypeHandle) }, null);
+            MethodInfo translator = typeof(Type).GetMethod("GetTypeFromHandle", BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(RuntimeTypeHandle) }, null);
             Call(translator);
         }
 
@@ -160,7 +160,7 @@ namespace DFramework.DynamicReflection
 
         public void StringFormat()
         {
-            MethodInfo formatter = typeof(String).GetMethod("Format", BindingFlags.Public | BindingFlags.Static, null, new Type[] { typeof(string), typeof(object []) }, null);
+            MethodInfo formatter = typeof(String).GetMethod("Format", BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(string), typeof(object []) }, null);
             Call(formatter);
         }
 

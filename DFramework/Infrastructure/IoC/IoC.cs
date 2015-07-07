@@ -1,13 +1,11 @@
 ﻿
 
+using System;
+using System.Collections.Generic;
+using DFramework.Utilities;
+
 namespace DFramework
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Diagnostics;
-    using DFramework.Utilities;
     public class IoC
     {
         private static IDependencyResolver _innerResolver;
@@ -108,7 +106,7 @@ namespace DFramework
         {
             if (typeof(Type) == typeof(T))
                 throw new IoCException("not allow register T is System.Type,Do you want to use IoC.Register(type, LifeStyle.Transient);");
-            InnerResolver.Register<T>(instance);
+            InnerResolver.Register(instance);
         }
         /// <summary>
         /// 注册对象(单例)
@@ -119,7 +117,7 @@ namespace DFramework
 
         public static void Register<T>(T instance, string name) where T : class
         {
-            InnerResolver.Register<T>(instance, name);
+            InnerResolver.Register(instance, name);
         }
 
         /// <summary>

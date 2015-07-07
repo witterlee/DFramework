@@ -38,6 +38,6 @@ del %CMDHOME%\*.nupkg
 "%NUGETEXE%" pack Plusins\Log4net\DFramework.Log4net.csproj -Prop Configuration=%CONFIGURATION%
 "%NUGETEXE%" pack Plusins\Memcached\DFramework.Memcached.csproj -Prop Configuration=%CONFIGURATION%
 @echo ===== wait for generate nupkg =====
-"%NUGETEXE%" push DFramework.*.nupkg -s http://192.168.2.200/ 
+"%NUGETEXE%" push DFramework.*.nupkg -s http://10.0.0.200/ 
 @echo ===== press any key ... =====
 pause

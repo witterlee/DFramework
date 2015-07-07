@@ -1,18 +1,17 @@
 ﻿using System;
-using Xunit;
-using DFramework;
-using DFramework.Autofac;
-using DFramework.CouchbaseCache;
-using Couchbase;
 using System.Collections.Generic;
 using System.Linq;
 using Couchbase.Configuration.Client;
+using DFramework;
+using DFramework.Autofac;
+using DFramework.CouchbaseCache;
+using Xunit;
 
 namespace FC.Framework.CouchCache.UnitTest
 {
     public class UnitTest
     {
-        static bool Inited = false;
+        static bool Inited;
         static object _lock = new object();
         public UnitTest()
         {
@@ -42,7 +41,7 @@ namespace FC.Framework.CouchCache.UnitTest
             var model = new TestModel { Name = "weitaolee", Sex = "male", Age = 25 };
             var key = Guid.NewGuid().Shrink();
 
-            Cache.Add<TestModel>(key, model, TimeSpan.FromSeconds(30));
+            Cache.Add(key, model, TimeSpan.FromSeconds(30));
 
             var cacheModel = Cache.Get<TestModel>(key);
 
@@ -84,7 +83,7 @@ namespace FC.Framework.CouchCache.UnitTest
         {
             var key = Guid.NewGuid().Shrink();
 
-            Cache.Add<int>(key, 2, TimeSpan.FromSeconds(30));
+            Cache.Add(key, 2, TimeSpan.FromSeconds(30));
 
             var cacheModel = Convert.ToInt32(Cache.Get(key));
 

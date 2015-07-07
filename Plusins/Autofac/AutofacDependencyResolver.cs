@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autofac;
 using Autofac.Builder;
 using Autofac.Core;
@@ -108,7 +105,7 @@ namespace DFramework.Autofac
 
             var builder = new ContainerBuilder();
 
-            var registerBuilder = builder.RegisterInstance<T>(instance);
+            var registerBuilder = builder.RegisterInstance(instance);
 
             builder.Update(_container);
         }
@@ -160,8 +157,7 @@ namespace DFramework.Autofac
                     var _params = this.ConvertToParameters(parameters);
                     return _container.Resolve<T>(_params);
                 }
-                else
-                    return _container.Resolve<T>();
+                return _container.Resolve<T>();
             }
             catch (ComponentNotRegisteredException ex)
             {
@@ -180,8 +176,7 @@ namespace DFramework.Autofac
                     var _params = this.ConvertToParameters(parameters);
                     return _container.ResolveNamed<T>(name, _params);
                 }
-                else
-                    return _container.ResolveNamed<T>(name);
+                return _container.ResolveNamed<T>(name);
             }
             catch (ComponentNotRegisteredException ex)
             {
@@ -198,8 +193,7 @@ namespace DFramework.Autofac
                     var _params = this.ConvertToParameters(parameters);
                     return _container.Resolve<T>(_params);
                 }
-                else
-                    return _container.Resolve<T>();
+                return _container.Resolve<T>();
             }
             catch (ComponentNotRegisteredException ex)
             {
@@ -218,8 +212,7 @@ namespace DFramework.Autofac
                     var _params = this.ConvertToParameters(parameters);
                     return _container.ResolveNamed<T>(name, _params);
                 }
-                else
-                    return _container.ResolveNamed<T>(name);
+                return _container.ResolveNamed<T>(name);
             }
             catch (ComponentNotRegisteredException ex)
             {
@@ -267,8 +260,7 @@ namespace DFramework.Autofac
                     var _params = this.ConvertToParameters(parameters);
                     return _container.Resolve(type, _params);
                 }
-                else
-                    return _container.Resolve(type);
+                return _container.Resolve(type);
             }
             catch (ComponentNotRegisteredException ex)
             {
@@ -286,8 +278,7 @@ namespace DFramework.Autofac
                 var _params = this.ConvertToParameters(parameters);
                 return _container.ResolveNamed(name, type, _params);
             }
-            else
-                return _container.Resolve(type);
+            return _container.Resolve(type);
         }
 
         public object Resolve(Type type, Dictionary<string, object> parameters)
@@ -299,8 +290,7 @@ namespace DFramework.Autofac
                 var _params = this.ConvertToParameters(parameters);
                 return _container.Resolve(type, _params);
             }
-            else
-                return _container.Resolve(type);
+            return _container.Resolve(type);
         }
 
         public object Resolve(Type type, string name, Dictionary<string, object> parameters)
@@ -313,8 +303,7 @@ namespace DFramework.Autofac
                 var _params = this.ConvertToParameters(parameters);
                 return _container.ResolveNamed(name, type, _params);
             }
-            else
-                return _container.Resolve(type);
+            return _container.Resolve(type);
         }
 
         public IEnumerable<object> ResolveAll(Type type)
@@ -365,7 +354,7 @@ namespace DFramework.Autofac
             }
         }
 
-        private bool _disposed = false;
+        private bool _disposed;
 
 
         #region 生命周期注册
@@ -404,8 +393,7 @@ namespace DFramework.Autofac
                 }
                 return _params;
             }
-            else
-                return null;
+            return null;
         }
 
         private List<Parameter> ConvertToParameters(Dictionary<string, object> parameters)
@@ -419,9 +407,9 @@ namespace DFramework.Autofac
                 }
                 return _params;
             }
-            else
-                return null;
+            return null;
         }
+
         #endregion
     }
 }

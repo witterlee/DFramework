@@ -5,7 +5,7 @@ using System.Reflection.Emit;
 
 namespace DFramework.DynamicReflection
 {
-    public sealed class DynamicIComparable<T> : System.Collections.Generic.IComparer<T>
+    public sealed class DynamicIComparable<T> : IComparer<T>
     {
         #region Private Fields
         private DynamicMethod method;
@@ -64,7 +64,7 @@ namespace DFramework.DynamicReflection
 
             DynamicMethod dm = new DynamicMethod("DynamicCompare"
                 , MethodAttributes.Static | MethodAttributes.Public, CallingConventions.Standard,
-                typeof(int), new Type[] { typeof(T), typeof(T) }, typeof(T), false);
+                typeof(int), new[] { typeof(T), typeof(T) }, typeof(T), false);
             dm.InitLocals = false;
             DynamicEmit de = new DynamicEmit(dm);
 
@@ -164,7 +164,7 @@ namespace DFramework.DynamicReflection
                     {
                         //IComparable<T>.Default;
                         // use propertyType's CompareTo method
-                        MethodInfo elementCompare = propertyType.GetMethod("CompareTo", new Type[] { propertyType });
+                        MethodInfo elementCompare = propertyType.GetMethod("CompareTo", new[] { propertyType });
                         de.Call(elementCompare);
                     }
 
@@ -190,7 +190,7 @@ namespace DFramework.DynamicReflection
                 // if there are no properties, call object IComparable directly...
                 de.LoadArgument(isValueType, 0);    // Load argument at position 0.
                 de.LoadArgument(1);                 // Load argument at position 1.
-                MethodInfo instanceCompare = typeof(T).GetMethod("CompareTo", new Type[] { typeof(T) });
+                MethodInfo instanceCompare = typeof(T).GetMethod("CompareTo", new[] { typeof(T) });
                 de.Call(instanceCompare);
             }
 
@@ -320,14 +320,14 @@ namespace DFramework.DynamicReflection
             if (orderBy == null)
                 throw new ArgumentException("The orderBy clause may not be null.", "orderBy");
 
-            string[] properties = orderBy.Split(new char[] { ',' } , StringSplitOptions.RemoveEmptyEntries);
+            string[] properties = orderBy.Split(new[] { ',' } , StringSplitOptions.RemoveEmptyEntries);
             SortProperty[] sortProperties = new SortProperty[properties.Length];
 
             for (int i = 0; i < properties.Length; i++)
             {
                 bool descending = false;
                 string property = properties[i].Trim();
-                string[] propertyElements = property.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] propertyElements = property.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                 if (propertyElements.Length > 1)
                 {

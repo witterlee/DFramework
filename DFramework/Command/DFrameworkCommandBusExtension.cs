@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using DFramework.Utilities;
+
 namespace DFramework
 {
     public static class DFrameworkCommandBusExtension

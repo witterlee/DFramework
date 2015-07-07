@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Couchbase;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System.Reflection;
-using Couchbase.Configuration;
-using Couchbase.Core;
 using Couchbase.Configuration.Client;
+using Couchbase.Core;
 
 namespace DFramework.CouchbaseCache
 {
@@ -30,8 +22,7 @@ namespace DFramework.CouchbaseCache
 
             if (result.Success)
                 return result.Value;
-            else
-                return null;
+            return null;
         }
 
         public bool TryGet(string key, out object value)
@@ -52,8 +43,7 @@ namespace DFramework.CouchbaseCache
 
             if (result.Success)
                 return result.Value;
-            else
-                return default(T);
+            return default(T);
         }
 
         public bool TryGet<T>(string key, out T value)
@@ -71,13 +61,13 @@ namespace DFramework.CouchbaseCache
         {
             var timespan = absoluteExpiration - DateTime.Now;
             if (timespan.TotalSeconds > 0)
-                this._bucket.Upsert<T>(key, value, timespan);
+                this._bucket.Upsert(key, value, timespan);
         }
 
         public void Add<T>(string key, T value, TimeSpan slidingExpiration)
         {
             if (slidingExpiration.TotalSeconds > 0)
-                this._bucket.Upsert<T>(key, value, slidingExpiration);
+                this._bucket.Upsert(key, value, slidingExpiration);
         }
 
         public void Remove(string key)
