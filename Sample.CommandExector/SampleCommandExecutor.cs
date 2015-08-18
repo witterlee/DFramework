@@ -7,8 +7,9 @@ namespace Sample.CommandExector
 {
     public class SampleCommandExecutor : ICommandExecutor<TestCommand>,
         ICommandExecutor<TestHasReturnValueCommand>
-    {
-        public async void Execute(TestCommand cmd)
+    { 
+
+        public async Task ExecuteAsync(TestCommand cmd)
         {
             var task = Task.Factory.StartNew(() =>
             {
@@ -17,12 +18,13 @@ namespace Sample.CommandExector
             await task;
         }
 
-        public async void Execute(TestHasReturnValueCommand cmd)
+        public async Task ExecuteAsync(TestHasReturnValueCommand cmd)
         {
+
             var task = Task.Factory.StartNew(() =>
             {
                 Console.WriteLine("TestHasReturnValueCommand Executed.");
-                cmd.ReturnValue = 1;
+                cmd.CommandResult = 1;
             });
             await task;
         }
