@@ -5,10 +5,13 @@ namespace DFramework
     /// <summary>
     /// 命令执行器
     /// </summary>
-    public interface ICommandExecutor<TCommand> : ICommandExecutor where TCommand : ICommand
+    public interface ICommandExecutor<in TCommand> : ICommandExecutor where TCommand : ICommand
     {
-        Task ExecuteAsync(TCommand cmd);
+        void Execute(TCommand cmd);
     }
 
-    public interface ICommandExecutor { }
+    public interface ICommandExecutor
+    {
+    }
 }
+

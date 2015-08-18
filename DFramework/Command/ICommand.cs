@@ -3,16 +3,11 @@
 namespace DFramework
 {
     /// <summary>
-    /// 待返回值的命令
+    /// 带返回值的命令
     /// </summary>
-    public class Command<T> : ICommand
+    public class Command<T> : Command
     {
-        public Command()
-        {
-            this.Id = Guid.NewGuid().Shrink();
-        }
-        public string Id { get; private set; }
-        public T CommandResult { get; set; }
+        public T ReturnValue { get; set; }
     }
     /// <summary>
     /// 命令
@@ -21,15 +16,38 @@ namespace DFramework
     {
         public Command()
         {
-            this.Id = Guid.NewGuid().Shrink();
+            this.Id = Guid.NewGuid();
         }
-        public string Id { get; private set; }
+        public Guid Id { get; private set; }
     }
     /// <summary>
     /// 命令接口
     /// </summary>
     public interface ICommand
     {
-        string Id { get; }
+        Guid Id { get; }
+
+    }
+
+    public enum CommandStatus
+    {
+        Pending = 0,
+        Fail = 1,
+        Success = 2
+    }
+
+    public class CommandResult
+    {
+        public CommandResult(ICommand cmd, CommandStatus status, string message="")
+        {
+            this.Cmd = cmd;
+            this.Status = status;
+            this.Message = message;
+        }
+
+        public ICommand Cmd { get; private set; }
+
+        public CommandStatus Status { get; private set; }
+        public string Message { get; private set; }
     }
 }

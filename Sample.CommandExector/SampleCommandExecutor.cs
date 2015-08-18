@@ -6,23 +6,25 @@ using Sample.Command;
 namespace Sample.CommandExector
 {
     public class SampleCommandExecutor : ICommandExecutor<TestCommand>,
-                                         ICommandExecutor<TestHasReturnValueCommand>
+        ICommandExecutor<TestHasReturnValueCommand>
     {
-        public Task ExecuteAsync(TestCommand cmd)
+        public async void Execute(TestCommand cmd)
         {
-            return Task.Factory.StartNew(() =>
-             {
-                 Console.WriteLine("TestCommand Executed.");
-             });
+            var task = Task.Factory.StartNew(() =>
+            {
+                Console.WriteLine("TestCommand Executed.");
+            });
+            await task;
         }
 
-        public async Task ExecuteAsync(TestHasReturnValueCommand cmd)
+        public async void Execute(TestHasReturnValueCommand cmd)
         {
-          await Task.Factory.StartNew(() =>
-          {
-              Console.WriteLine("TestHasReturnValueCommand Executed.");
-              cmd.CommandResult = 1;
-          });
+            var task = Task.Factory.StartNew(() =>
+            {
+                Console.WriteLine("TestHasReturnValueCommand Executed.");
+                cmd.ReturnValue = 1;
+            });
+            await task;
         }
     }
 }

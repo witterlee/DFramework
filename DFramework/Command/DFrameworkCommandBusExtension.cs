@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Web;
 using DFramework.Utilities;
 
 namespace DFramework
@@ -11,9 +12,10 @@ namespace DFramework
 
             var commandExecutorContainer = new CommandExecutorContainer();
 
-            commandExecutorContainer.RegisterExecutors(assemblies); 
-
-            IoC.Register<ICommandBus>(new DefaultCommandBus(commandExecutorContainer));
+            commandExecutorContainer.RegisterExecutors(assemblies);
+            var commandBus = new DefaultCommandBus(commandExecutorContainer);
+            commandBus.Start();
+            IoC.Register<ICommandBus>(commandBus);
 
             return framework;
         }

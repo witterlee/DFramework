@@ -14,6 +14,7 @@ using DFramework;
 using DFramework.Autofac;
 using DFramework.CouchbaseCache;
 using DFramework.Log4net;
+using DFramework.Memcached;
 
 namespace Sample
 {
@@ -28,7 +29,7 @@ namespace Sample
 
             DEnvironment.Initialize()
                         .UseAutofac()
-                        .UseCouchbaseCache(clientConfig, "datastore")
+                        .UseMemcached("10.0.0.200")
                         .UseLog4net()
                         .UseDefaultCommandBus(GetAllAssembly())
                         .UseDefaultJsonSerializer();

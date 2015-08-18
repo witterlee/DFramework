@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using DFramework.DynamicReflection;
 using DFramework.Utilities;
 
 namespace DFramework
@@ -9,19 +10,27 @@ namespace DFramework
     /// <summary>
     /// command executor container
     /// </summary>
-    public class CommandExecutorContainer : ICommandExecutorContainer
+    internal class CommandExecutorContainer : ICommandExecutorContainer
     {
         private readonly object _writeLock = new object();
-        private readonly Dictionary<Type, ICommandExecutor> _executorForCommand = new Dictionary<Type, ICommandExecutor>();
+        private readonly Dictionary<Type, Tuple<Delegate, ICommandExecutor>> _DelegateForCommand = new Dictionary<Type, Tuple<Delegate, ICommandExecutor>>();
 
+        //public ICommandExecutor<TCommand> FindExecutor<TCommand>() where TCommand : ICommand
+        //{
+        //    var executor = default(ICommandExecutor);
 
-        public ICommandExecutor<TCommand> FindExecutor<TCommand>() where TCommand : ICommand
+        //    this._executorForCommand.TryGetValue(typeof(TCommand), out executor);
+
+        //    return executor as ICommandExecutor<TCommand>;
+        //}
+
+        public Tuple<Delegate, ICommandExecutor> FindExecutor(Type commandType)
         {
-            var executor = default(ICommandExecutor);
+            var executor = default(Tuple<Delegate, ICommandExecutor>);
 
-            this._executorForCommand.TryGetValue(typeof(TCommand), out executor);
+            this._DelegateForCommand.TryGetValue(commandType, out executor);
 
-            return executor as ICommandExecutor<TCommand>;
+            return executor;
         }
 
         public void RegisterExecutor(Type executorType)
@@ -36,10 +45,31 @@ namespace DFramework
                 lock (this._writeLock)
                 {
                     var executorInstance = (ICommandExecutor)Activator.CreateInstance(executorType);
-                    foreach (var execType in executorTypes)
+
+                    foreach (var method in executorInstance.GetType().GetMethods())
                     {
-                        this._executorForCommand[execType] = executorInstance;
+                        if (method.Name == "Execute")
+                        {
+                            var @params = method.GetParameters();
+
+                            if (@params.Length == 1)
+                            {
+                                var paramsType = @params.First().ParameterType;
+                                foreach (var execType in executorTypes)
+                                {
+                                    if (execType == paramsType)
+                                    {
+                                        var del = Dynamic<object>.Instance.Procedure.Explicit<ICommand>.CreateDelegate(method);
+
+                                        this._DelegateForCommand[execType] = new Tuple<Delegate, ICommandExecutor>(del,
+                                            executorInstance);
+                                    }
+                                    //this._executorForCommand[execType] = executorInstance;
+                                }
+                            }
+                        }
                     }
+
                 }
         }
 
