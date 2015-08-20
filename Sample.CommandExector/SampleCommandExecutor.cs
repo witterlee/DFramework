@@ -12,7 +12,7 @@ namespace Sample.CommandExector
         {
             var task = Task.Factory.StartNew(() =>
             {
-                Console.WriteLine("TestCommand Executed.");
+                //Console.WriteLine("TestCommand Executed.");
             });
             await task;
         }
@@ -21,8 +21,8 @@ namespace Sample.CommandExector
         {
             var task = Task.Factory.StartNew(() =>
             {
-                Console.WriteLine("TestHasReturnValueCommand Executed.");
-                cmd.ReturnValue = 1;
+               // Console.WriteLine("TestHasReturnValueCommand Executed.");
+                cmd.ReturnValue = 1000;
             });
             await task;
         }

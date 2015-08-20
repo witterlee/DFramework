@@ -13,8 +13,7 @@ namespace DFramework
             var commandExecutorContainer = new CommandExecutorContainer();
 
             commandExecutorContainer.RegisterExecutors(assemblies);
-            var commandBus = new DefaultCommandBus(commandExecutorContainer);
-            commandBus.Start();
+            var commandBus = new DefaultCommandBus(commandExecutorContainer); 
             IoC.Register<ICommandBus>(commandBus);
 
             return framework;

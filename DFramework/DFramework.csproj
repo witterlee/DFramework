@@ -53,9 +53,10 @@
   <ItemGroup>
     <Compile Include="Command\CommandExecutionExecption.cs" />
     <Compile Include="Command\CommandExecutorContainer.cs" />
+    <Compile Include="Command\CommandResult.cs" />
+    <Compile Include="Command\CommandTaskCompletionSource.cs" />
     <Compile Include="Command\DefaultCommandBus.cs" />
     <Compile Include="Command\DFrameworkCommandBusExtension.cs" />
-    <Compile Include="Command\ComandAsyncResult.cs" />
     <Compile Include="Command\ICommand.cs" />
     <Compile Include="Command\ICommandBus.cs" />
     <Compile Include="Command\ICommandExecutor.cs" />

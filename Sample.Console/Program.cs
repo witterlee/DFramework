@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Optimization;
-using System.Web.Routing;
-using Couchbase.Configuration.Client;
-using Couchbase.Configuration.Client.Providers;
+using System.Text;
+using System.Threading.Tasks;
 using DFramework;
 using DFramework.Autofac;
 using DFramework.Log4net;
@@ -18,31 +14,40 @@ using DFramework.RabbitCommandBus;
 using RabbitMQ.Client;
 using Sample.Command;
 
-namespace Sample
+namespace Sample.Console
 {
-    public class MvcApplication : HttpApplication
+    class Program
     {
-        protected void Application_Start()
+        static void Main(string[] args)
         {
-            var configSection =
-                (CouchbaseClientSection)ConfigurationManager.GetSection("couchbaseClients/couchbaseCache");
-
-            var clientConfig = new ClientConfiguration(configSection);
-
-
             DEnvironment.Initialize()
                         .UseAutofac()
                         .UseDefaultJsonSerializer()
                         .UseMemcached("10.0.0.200")
                         .UseLog4net()
-                        .UseRabbitCommandBus(RegisterTypeCode(), GetAllAssembly(),3);
+                        .UseRabbitCommandBus(RegisterTypeCode(), GetAllAssembly());
 
-            AreaRegistration.RegisterAllAreas();
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
+            int i = 1000, j = 10;
+
+            Stopwatch sw = Stopwatch.StartNew();
+            var taskList = new List<Task>();
+            var bus = IoC.Resolve<ICommandBus>();
+
+            while (j-- > 0)
+            {
+                i = 10000;
+                while (i-- > 0)
+                {
+                    var cmd = new TestCommand("nameA", "pwdB");
+                    taskList.Add(bus.SendAsync(cmd));
+                }
+
+                Task.WhenAll(taskList).Wait();
+            }
+            sw.Stop();
+            System.Console.WriteLine(sw.ElapsedMilliseconds);
+            System.Console.Read();
         }
-
         #region 获取程序集
         private static Assembly[] GetAllAssembly()
         {
@@ -64,7 +69,7 @@ namespace Sample
 
         #region Register Type Code
 
-        private Dictionary<int, Type> RegisterTypeCode()
+        private static Dictionary<int, Type> RegisterTypeCode()
         {
             var factory = new ConnectionFactory() { Uri = "amqp://rabbit:rabbit@10.0.0.200/test2", AutomaticRecoveryEnabled = true };
             IoC.Register<IConnectionFactory>(factory);

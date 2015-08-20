@@ -15,9 +15,8 @@ namespace DFramework
     {
         private readonly ICommandExecutorContainer _executorContainer;
         private readonly BlockingCollection<ICommand> _commandQueue;
-        private readonly ConcurrentDictionary<Guid, TaskCompletionSource<CommandResult>> _commandTaskDic;
-        private bool _isRequestStop = false;
-
+        private readonly ConcurrentDictionary<Guid, CommandTaskCompletionSource> _commandTaskDic;
+        private Thread worker;
 
         public DefaultCommandBus(ICommandExecutorContainer executorContainer)
         {
@@ -25,42 +24,38 @@ namespace DFramework
 
             this._executorContainer = executorContainer;
             this._commandQueue = new BlockingCollection<ICommand>();
-            this._commandTaskDic = new ConcurrentDictionary<Guid, TaskCompletionSource<CommandResult>>();
+            this._commandTaskDic = new ConcurrentDictionary<Guid, CommandTaskCompletionSource>();
 
-        }
-
-        public void Start()
-        {
-            var worker = new Thread(() =>
+            worker = new Thread(() =>
             {
-                while (!_isRequestStop)
+                while (true)
                 {
                     ICommand cmd;
                     if (this._commandQueue.TryTake(out cmd))
                     {
                         Task.Factory.StartNew(() =>
                         {
-                            TaskCompletionSource<CommandResult> tcs;
+                            CommandTaskCompletionSource tcs;
                             if (_commandTaskDic.TryGetValue(cmd.Id, out tcs))
                             {
                                 var delegete = this._executorContainer.FindExecutor(cmd.GetType());
 
                                 if (delegete == null)
-                                    tcs.SetResult(new CommandResult(cmd, CommandStatus.Fail, "not found command " + cmd.GetType().Name + "'s executor"));
+                                    tcs.CompletionSource.SetResult(new CommandResult(cmd, CommandStatus.Fail, "not found command " + cmd.GetType().Name + "'s executor"));
                                 else
                                 {
                                     try
                                     {
                                         delegete.Item1.DynamicInvoke(delegete.Item2, cmd);
 
-                                        tcs.SetResult(new CommandResult(cmd, CommandStatus.Success));
+                                        tcs.CompletionSource.SetResult(new CommandResult(cmd, CommandStatus.Success));
                                         Log.Debug("execute cmd success,cmdId={0},cmdStatus={1}");
 
                                     }
                                     catch (Exception ex)
                                     {
                                         Log.Error("execute command error", ex);
-                                        tcs.SetResult(new CommandResult(cmd, CommandStatus.Fail, "not found command " + cmd.GetType().Name + "'s executor"));
+                                        tcs.CompletionSource.SetResult(new CommandResult(cmd, CommandStatus.Fail, "not found command " + cmd.GetType().Name + "'s executor"));
                                     }
 
                                     _commandTaskDic.TryRemove(cmd.Id, out tcs);
@@ -72,8 +67,9 @@ namespace DFramework
                 }
             });
 
-            worker.Start();
+            worker.Start(); 
         }
+         
 
         public virtual Task<CommandResult> SendAsync<TCommand>(TCommand cmd) where TCommand : ICommand
         {
@@ -81,10 +77,10 @@ namespace DFramework
             {
                 if (_commandQueue.TryAdd(cmd))
                 {
-                    var tcs = new TaskCompletionSource<CommandResult>();
+                    var tcs = new CommandTaskCompletionSource();
                     if (_commandTaskDic.TryAdd(cmd.Id, tcs))
                     {
-                        return tcs.Task;
+                        return tcs.CompletionSource.Task;
                     }
                 }
 
@@ -95,15 +91,13 @@ namespace DFramework
                 return Task.FromResult(new CommandResult(cmd, CommandStatus.Fail, ex.Message));
             }
         }
-
-        public void Stop()
-        {
-            throw new NotImplementedException();
-        }
-
+          
         public void Dispose()
         {
-            throw new NotImplementedException();
+            if (worker != null && worker.IsAlive)
+            {
+                worker.Abort();
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ namespace DFramework
     /// <summary>
     /// command executor container
     /// </summary>
-    internal class CommandExecutorContainer : ICommandExecutorContainer
+    public class CommandExecutorContainer : ICommandExecutorContainer
     {
         private readonly object _writeLock = new object();
         private readonly Dictionary<Type, Tuple<Delegate, ICommandExecutor>> _DelegateForCommand = new Dictionary<Type, Tuple<Delegate, ICommandExecutor>>();

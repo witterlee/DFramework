@@ -77,6 +77,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="RabbitMQ.Client, Version=3.5.4.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RabbitMQ.Client.3.5.4\lib\net40\RabbitMQ.Client.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -209,6 +213,8 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\web.config" />
+    <Content Include="Views\Home\IndexLoop.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -237,6 +243,10 @@
     <ProjectReference Include="..\Plusins\Memcached\DFramework.Memcached.csproj">
       <Project>{c82814dd-9f00-4263-97fb-6fce8b8bdf76}</Project>
       <Name>DFramework.Memcached</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Plusins\RabbitCommandBus\DFramework.RabbitCommandBus.csproj">
+      <Project>{a0b87cd1-7904-40fa-ab51-607bbc9c2049}</Project>
+      <Name>DFramework.RabbitCommandBus</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sample.CommandExector\Sample.CommandExector.csproj">
       <Project>{63b657e1-9978-44da-a2e3-eb772b7d933b}</Project>
