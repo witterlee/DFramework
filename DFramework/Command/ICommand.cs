@@ -17,8 +17,12 @@ namespace DFramework
         public Command()
         {
             this.Id = Guid.NewGuid();
+            this.Status = CommandStatus.Pending;
+            this.Message = string.Empty;
         }
         public Guid Id { get; set; }
+        public CommandStatus Status { get; set; }
+        public string Message { get; set; }
     }
     /// <summary>
     /// 命令接口
@@ -26,7 +30,8 @@ namespace DFramework
     public interface ICommand
     {
         Guid Id { get; set; }
-
+        CommandStatus Status { get; set; }
+        string Message { get; set; }
     }
 
     public enum CommandStatus

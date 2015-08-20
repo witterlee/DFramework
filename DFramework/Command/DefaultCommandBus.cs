@@ -41,21 +41,28 @@ namespace DFramework
                                 var delegete = this._executorContainer.FindExecutor(cmd.GetType());
 
                                 if (delegete == null)
-                                    tcs.CompletionSource.SetResult(new CommandResult(cmd, CommandStatus.Fail, "not found command " + cmd.GetType().Name + "'s executor"));
+                                {
+                                    cmd.Status = CommandStatus.Fail;
+                                    cmd.Message = "not found command " + cmd.GetType().Name + "'s executor";
+                                    tcs.CompletionSource.SetResult(cmd);
+                                }
                                 else
                                 {
                                     try
                                     {
                                         delegete.Item1.DynamicInvoke(delegete.Item2, cmd);
-
-                                        tcs.CompletionSource.SetResult(new CommandResult(cmd, CommandStatus.Success));
+                                        cmd.Status = CommandStatus.Success;
+                                        tcs.CompletionSource.SetResult(cmd);
                                         Log.Debug("execute cmd success,cmdId={0},cmdStatus={1}");
 
                                     }
                                     catch (Exception ex)
                                     {
-                                        Log.Error("execute command error", ex);
-                                        tcs.CompletionSource.SetResult(new CommandResult(cmd, CommandStatus.Fail, "not found command " + cmd.GetType().Name + "'s executor"));
+                                        Log.Debug("execute command error", ex);
+
+                                        cmd.Status = CommandStatus.Fail;
+                                        cmd.Message = ex.Message;
+                                        tcs.CompletionSource.SetResult(cmd);
                                     }
 
                                     _commandTaskDic.TryRemove(cmd.Id, out tcs);
@@ -67,11 +74,11 @@ namespace DFramework
                 }
             });
 
-            worker.Start(); 
+            worker.Start();
         }
-         
 
-        public virtual Task<CommandResult> SendAsync<TCommand>(TCommand cmd) where TCommand : ICommand
+
+        public async virtual Task<ICommand> SendAsync<TCommand>(TCommand cmd) where TCommand : class ,ICommand
         {
             try
             {
@@ -80,18 +87,21 @@ namespace DFramework
                     var tcs = new CommandTaskCompletionSource();
                     if (_commandTaskDic.TryAdd(cmd.Id, tcs))
                     {
-                        return tcs.CompletionSource.Task;
+                        return await tcs.CompletionSource.Task as TCommand;
                     }
                 }
-
-                return Task.FromResult(new CommandResult(cmd, CommandStatus.Fail, "send command to queue exception"));
+                cmd.Status = CommandStatus.Fail;
+                cmd.Message = "send command to queue exception";
+                return cmd;
             }
             catch (Exception ex)
             {
-                return Task.FromResult(new CommandResult(cmd, CommandStatus.Fail, ex.Message));
+                cmd.Status = CommandStatus.Fail;
+                cmd.Message = ex.Message;
+                return cmd;
             }
         }
-          
+
         public void Dispose()
         {
             if (worker != null && worker.IsAlive)

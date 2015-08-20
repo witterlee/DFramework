@@ -75,8 +75,8 @@ namespace DFramework.RabbitCommandBus
                             try
                             {
                                 delegete.Item1.DynamicInvoke(delegete.Item2, cmd);
-                                var commandResult = new CommandResult(cmd, CommandStatus.Success);
-                                ReplyCommandResult(commandResult, commandTypeCode, properties.ReplyTo);
+                                cmd.Status = CommandStatus.Success;
+                                ReplyCommandResult(cmd, commandTypeCode, properties.ReplyTo);
                                 Model.BasicAck(deliveryTag, false);
                                 //Log.Debug("execute cmd success,cmdId={0},cmdStatus={1}", cmd.Id, CommandStatus.Success.ToString("G"));
                             }
@@ -91,12 +91,12 @@ namespace DFramework.RabbitCommandBus
                 }
             }
 
-            private void ReplyCommandResult(CommandResult result, int commandTypeCode,string replyTo)
+            private void ReplyCommandResult(ICommand processedCommand, int commandTypeCode,string replyTo)
             {
                 //如果不是本机注册的CommandTask，再广播结果消息
-                if (!this._commandBus.InternalCompleteTaskByResult(result))
+                if (!this._commandBus.InternalCompleteTaskByResult(processedCommand))
                 {
-                    var messageBody = IoC.Resolve<IJsonSerializer>().Serialize(result);
+                    var messageBody = IoC.Resolve<IJsonSerializer>().Serialize(processedCommand);
                     var bytes = Encoding.UTF8.GetBytes(messageBody);
                     var build = new BytesMessageBuilder(publishChannel);
                     build.WriteBytes(bytes);

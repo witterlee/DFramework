@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace DFramework
 {
-    public class CommandTaskCompletionSource
-    {
+    public class CommandTaskCompletionSource 
+    { 
         public CommandTaskCompletionSource()
         {
-            CompletionSource = new TaskCompletionSource<CommandResult>();
+            this.CompletionSource = new TaskCompletionSource<ICommand>();
         }
-        public TaskCompletionSource<CommandResult> CompletionSource { get; set; }
+
+        public TaskCompletionSource<ICommand> CompletionSource { get; set; }
         public DateTime Timestamp { get; set; }
     }
 }

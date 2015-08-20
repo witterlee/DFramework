@@ -7,6 +7,6 @@ namespace DFramework
     /// </summary>
     public interface ICommandBus
     {
-        Task<CommandResult> SendAsync<TCommand>(TCommand cmd) where TCommand : ICommand;
+        Task<ICommand> SendAsync<TCommand>(TCommand cmd) where TCommand : class, ICommand;
     }
 }

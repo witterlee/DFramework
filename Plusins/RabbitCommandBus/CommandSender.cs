@@ -109,17 +109,10 @@ namespace DFramework.RabbitCommandBus
                 if (int.TryParse(commandTypeString, out commandTypeCode))
                 {
                     var cmdType = this._commandTypeMapping.GetTypeByCode(commandTypeCode);
-                    CommandTaskCompletionSource completionSource;
                     if (cmdType != null)
                     {
-                        var cmdDynamicResult = IoC.Resolve<IJsonSerializer>().Deserialize<dynamic>(message);
-                        var cmd = IoC.Resolve<IJsonSerializer>().Deserialize(cmdDynamicResult["Cmd"].ToString(), cmdType) as ICommand;
-
-                        CommandStatus status = cmdDynamicResult["Status"];
-                        string msg = cmdDynamicResult["Message"];
-                        var commandResult = new CommandResult(cmd, status, msg);
-
-                        _commandBus.DistributedCompleteTaskByResult(commandResult);
+                        var cmd = IoC.Resolve<IJsonSerializer>().Deserialize(message, cmdType) as ICommand; 
+                        _commandBus.DistributedCompleteTaskByResult(cmd);
                     }
 
                 }

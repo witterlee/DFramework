@@ -12,7 +12,7 @@ namespace DFramework.RabbitCommandBus
     /// 命令总线
     /// </summary>
     public class CommandBus : ICommandBus
-    { 
+    {
         private readonly CommandSender _commandSender;
         private readonly CommandProcessor _commandProcessor;
         private Timer _timeoutCommandCheckerTimer;
@@ -30,7 +30,7 @@ namespace DFramework.RabbitCommandBus
             this._commandSender = new CommandSender(this, commandTypeMapping, executorContainer, queryCount);
         }
 
-        public virtual Task<CommandResult> SendAsync<TCommand>(TCommand cmd) where TCommand : ICommand
+        public virtual Task<ICommand> SendAsync<TCommand>(TCommand cmd) where TCommand : class, ICommand
         {
             try
             {
@@ -40,44 +40,48 @@ namespace DFramework.RabbitCommandBus
                 {
                     return tcs.CompletionSource.Task;
                 }
-
-                return Task.FromResult(new CommandResult(cmd, CommandStatus.Fail, "send command to queue exception"));
+                cmd.Status = CommandStatus.Fail;
+                cmd.Message = "send command to queue exception";
+                return Task.FromResult(cmd as ICommand);
             }
             catch (Exception ex)
             {
-                return Task.FromResult(new CommandResult(cmd, CommandStatus.Fail, ex.Message));
+                cmd.Status = CommandStatus.Fail;
+                cmd.Message = ex.Message;
+                return Task.FromResult(cmd as ICommand);
             }
         }
 
-        internal bool InternalCompleteTaskByResult(CommandResult result)
+        internal bool InternalCompleteTaskByResult(ICommand processdCommand)
         {
             return false;
             CommandTaskCompletionSource completionSource;
-            var isContainCommandTask = _commandTaskDic.TryRemove(result.Cmd.Id, out completionSource);
+            var isContainCommandTask = _commandTaskDic.TryRemove(processdCommand.Id, out completionSource);
 
             if (isContainCommandTask)
             {
-                completionSource.CompletionSource.SetResult(result);
+                completionSource.CompletionSource.SetResult(processdCommand);
             }
 
             return isContainCommandTask;
         }
-        internal bool DistributedCompleteTaskByResult(CommandResult result)
+        internal bool DistributedCompleteTaskByResult(ICommand command)
         {
             CommandTaskCompletionSource completionSource;
-            var isContainCommandTask = _commandTaskDic.TryRemove(result.Cmd.Id, out completionSource);
+            var isContainCommandTask = _commandTaskDic.TryRemove(command.Id, out completionSource);
 
             if (isContainCommandTask)
             {
-                completionSource.CompletionSource.SetResult(result);
+                completionSource.CompletionSource.SetResult(command);
             }
 
             return isContainCommandTask;
-        } 
+        }
 
         #region Private Method
         private bool RegisterCommandTask(Guid id, CommandTaskCompletionSource completionSource)
         {
+            var task = completionSource;
             return this._commandTaskDic.TryAdd(id, completionSource);
         }
         private void StartCommandCheckerTimer()
