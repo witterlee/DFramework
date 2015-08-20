@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandProcessor.cs" />
+    <Compile Include="CommandCopyHelper.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CommandTypeMapping.cs" />
     <Compile Include="CommandSender.cs" />

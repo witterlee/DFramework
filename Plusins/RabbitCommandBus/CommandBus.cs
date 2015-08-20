@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Timers;
 using DFramework.Utilities;
@@ -30,11 +31,11 @@ namespace DFramework.RabbitCommandBus
             this._commandSender = new CommandSender(this, commandTypeMapping, executorContainer, queryCount);
         }
 
-        public virtual Task<ICommand> SendAsync<TCommand>(TCommand cmd) where TCommand : class, ICommand
+        public virtual Task SendAsync<TCommand>(TCommand cmd) where TCommand : class, ICommand
         {
             try
             {
-                var tcs = new CommandTaskCompletionSource();
+                var tcs = new CommandTaskCompletionSource(cmd);
 
                 if (this.RegisterCommandTask(cmd.Id, tcs) && this._commandSender.Send(cmd))
                 {
@@ -53,26 +54,27 @@ namespace DFramework.RabbitCommandBus
         }
 
         internal bool InternalCompleteTaskByResult(ICommand processdCommand)
-        {
-            return false;
+        { 
             CommandTaskCompletionSource completionSource;
             var isContainCommandTask = _commandTaskDic.TryRemove(processdCommand.Id, out completionSource);
 
             if (isContainCommandTask)
             {
+                CommandCopyHelper.Copy(processdCommand, completionSource.Command);
                 completionSource.CompletionSource.SetResult(processdCommand);
             }
 
             return isContainCommandTask;
         }
-        internal bool DistributedCompleteTaskByResult(ICommand command)
+        internal bool DistributedCompleteTaskByResult(ICommand processdCommand)
         {
             CommandTaskCompletionSource completionSource;
-            var isContainCommandTask = _commandTaskDic.TryRemove(command.Id, out completionSource);
+            var isContainCommandTask = _commandTaskDic.TryRemove(processdCommand.Id, out completionSource);
 
             if (isContainCommandTask)
             {
-                completionSource.CompletionSource.SetResult(command);
+                CommandCopyHelper.Copy(processdCommand, completionSource.Command);
+                completionSource.CompletionSource.SetResult(processdCommand);
             }
 
             return isContainCommandTask;

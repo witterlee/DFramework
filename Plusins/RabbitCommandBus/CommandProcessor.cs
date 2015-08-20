@@ -74,7 +74,7 @@ namespace DFramework.RabbitCommandBus
                             var delegete = this.executorContainer.FindExecutor(cmdType);
                             try
                             {
-                                delegete.Item1.DynamicInvoke(delegete.Item2, cmd);
+                                delegete.Item1.Invoke(delegete.Item2, cmd);
                                 cmd.Status = CommandStatus.Success;
                                 ReplyCommandResult(cmd, commandTypeCode, properties.ReplyTo);
                                 Model.BasicAck(deliveryTag, false);

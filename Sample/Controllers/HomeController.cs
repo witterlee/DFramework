@@ -13,9 +13,9 @@ namespace Sample.Controllers
         public async Task<ActionResult> Index()
         {
             var cmd = new TestHasReturnValueCommand("nameA", "pwdB");
-            var cmdResult = await CommandBus.SendAsync(cmd) as TestHasReturnValueCommand;
+            await CommandBus.SendAsync(cmd);
 
-            ViewBag.Time = cmdResult.ReturnValue;
+            ViewBag.Time = cmd.ReturnValue;
             return View();
         }
 

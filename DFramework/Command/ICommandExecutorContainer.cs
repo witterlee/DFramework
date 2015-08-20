@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using DFramework.DynamicReflection;
 
 namespace DFramework
 {
     public interface ICommandExecutorContainer
     {
         //ICommandExecutor<TCommand> FindExecutor<TCommand>() where TCommand : ICommand;
-        Tuple<Delegate, ICommandExecutor> FindExecutor(Type commandType);
+        Tuple<Proc<object, ICommand>, ICommandExecutor> FindExecutor(Type commandType);
 
         void RegisterExecutor(Type executorType);
 

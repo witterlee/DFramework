@@ -13,7 +13,7 @@ namespace DFramework
     public class CommandExecutorContainer : ICommandExecutorContainer
     {
         private readonly object _writeLock = new object();
-        private readonly Dictionary<Type, Tuple<Delegate, ICommandExecutor>> _DelegateForCommand = new Dictionary<Type, Tuple<Delegate, ICommandExecutor>>();
+        private readonly Dictionary<Type, Tuple<Proc<object,ICommand>, ICommandExecutor>> _DelegateForCommand = new Dictionary<Type, Tuple<Proc<object, ICommand>, ICommandExecutor>>();
 
         //public ICommandExecutor<TCommand> FindExecutor<TCommand>() where TCommand : ICommand
         //{
@@ -24,9 +24,9 @@ namespace DFramework
         //    return executor as ICommandExecutor<TCommand>;
         //}
 
-        public Tuple<Delegate, ICommandExecutor> FindExecutor(Type commandType)
+        public Tuple<Proc<object, ICommand>, ICommandExecutor> FindExecutor(Type commandType)
         {
-            var executor = default(Tuple<Delegate, ICommandExecutor>);
+            var executor = default(Tuple<Proc<object, ICommand>, ICommandExecutor>);
 
             this._DelegateForCommand.TryGetValue(commandType, out executor);
 
@@ -61,7 +61,7 @@ namespace DFramework
                                     {
                                         var del = Dynamic<object>.Instance.Procedure.Explicit<ICommand>.CreateDelegate(method);
 
-                                        this._DelegateForCommand[execType] = new Tuple<Delegate, ICommandExecutor>(del,
+                                        this._DelegateForCommand[execType] = new Tuple<Proc<object, ICommand>, ICommandExecutor>(del,
                                             executorInstance);
                                     }
                                     //this._executorForCommand[execType] = executorInstance;

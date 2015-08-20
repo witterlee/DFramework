@@ -111,7 +111,7 @@ namespace DFramework.RabbitCommandBus
                     var cmdType = this._commandTypeMapping.GetTypeByCode(commandTypeCode);
                     if (cmdType != null)
                     {
-                        var cmd = IoC.Resolve<IJsonSerializer>().Deserialize(message, cmdType) as ICommand; 
+                        var cmd = IoC.Resolve<IJsonSerializer>().Deserialize(message, cmdType) as ICommand;
                         _commandBus.DistributedCompleteTaskByResult(cmd);
                     }
 

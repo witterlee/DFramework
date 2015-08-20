@@ -50,7 +50,7 @@ namespace DFramework
                                 {
                                     try
                                     {
-                                        delegete.Item1.DynamicInvoke(delegete.Item2, cmd);
+                                        delegete.Item1.Invoke(delegete.Item2, cmd);
                                         cmd.Status = CommandStatus.Success;
                                         tcs.CompletionSource.SetResult(cmd);
                                         Log.Debug("execute cmd success,cmdId={0},cmdStatus={1}");
@@ -78,28 +78,28 @@ namespace DFramework
         }
 
 
-        public async virtual Task<ICommand> SendAsync<TCommand>(TCommand cmd) where TCommand : class ,ICommand
+        public virtual Task SendAsync<TCommand>(TCommand cmd) where TCommand : class ,ICommand
         {
             try
             {
                 if (_commandQueue.TryAdd(cmd))
                 {
-                    var tcs = new CommandTaskCompletionSource();
+                    var tcs = new CommandTaskCompletionSource(cmd);
                     if (_commandTaskDic.TryAdd(cmd.Id, tcs))
                     {
-                        return await tcs.CompletionSource.Task as TCommand;
+                        return tcs.CompletionSource.Task;
                     }
                 }
                 cmd.Status = CommandStatus.Fail;
                 cmd.Message = "send command to queue exception";
-                return cmd;
             }
             catch (Exception ex)
             {
                 cmd.Status = CommandStatus.Fail;
                 cmd.Message = ex.Message;
-                return cmd;
             }
+
+            return Task.FromResult(1);
         }
 
         public void Dispose()
