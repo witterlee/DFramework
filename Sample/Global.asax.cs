@@ -28,14 +28,14 @@ namespace Sample
                 (CouchbaseClientSection)ConfigurationManager.GetSection("couchbaseClients/couchbaseCache");
 
             var clientConfig = new ClientConfiguration(configSection);
-
+            var connectionFactory = new ConnectionFactory { Uri = "amqp://rabbit:rabbit@10.0.0.200/test2", AutomaticRecoveryEnabled = true };
 
             DEnvironment.Initialize()
                         .UseAutofac()
                         .UseDefaultJsonSerializer()
                         .UseMemcached("10.0.0.200")
                         .UseLog4net()
-                        .UseRabbitCommandBus(RegisterTypeCode(), GetAllAssembly(),3);
+                        .UseRabbitCommandBus(connectionFactory, RegisterTypeCode(), GetAllAssembly(), 3);
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -65,9 +65,7 @@ namespace Sample
         #region Register Type Code
 
         private Dictionary<int, Type> RegisterTypeCode()
-        {
-            var factory = new ConnectionFactory { Uri = "amqp://rabbit:rabbit@10.0.0.200/test2", AutomaticRecoveryEnabled = true };
-            IoC.Register<IConnectionFactory>(factory);
+        { 
             var dic = new Dictionary<int, Type>();
             dic.Add(100, typeof(TestCommand));
             dic.Add(101, typeof(TestHasReturnValueCommand));

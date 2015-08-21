@@ -19,12 +19,14 @@ namespace Sample.Console
     {
         static void Main(string[] args)
         {
+            var connectionFactory = new ConnectionFactory { Uri = "amqp://rabbit:rabbit@10.0.0.200/test2", AutomaticRecoveryEnabled = true };
+
             DEnvironment.Initialize()
                         .UseAutofac()
                         .UseDefaultJsonSerializer()
                         .UseMemcached("10.0.0.200")
                         .UseLog4net()
-                        .UseRabbitCommandBus(RegisterTypeCode(), GetAllAssembly());
+                        .UseRabbitCommandBus(connectionFactory, RegisterTypeCode(), GetAllAssembly());
 
             int i = 1000, j = 10;
 
