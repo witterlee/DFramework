@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Timers;
 using DFramework.Utilities;
-using Timer = System.Timers.Timer;
 
 namespace DFramework.RabbitCommandBus
 {

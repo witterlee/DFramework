@@ -22,7 +22,7 @@ namespace DFramework.RabbitCommandBus
             {
                 return codeMapper.Key;
             }
-            else return -3;
+            return -3;
         }
 
         public Type GetTypeByCode(int commandTypeCode)
@@ -31,7 +31,7 @@ namespace DFramework.RabbitCommandBus
             {
                 return _mapping[commandTypeCode];
             }
-            else return null;
-        } 
+            return null;
+        }
     }
 }

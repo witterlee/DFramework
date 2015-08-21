@@ -66,7 +66,7 @@ namespace Sample
 
         private Dictionary<int, Type> RegisterTypeCode()
         {
-            var factory = new ConnectionFactory() { Uri = "amqp://rabbit:rabbit@10.0.0.200/test2", AutomaticRecoveryEnabled = true };
+            var factory = new ConnectionFactory { Uri = "amqp://rabbit:rabbit@10.0.0.200/test2", AutomaticRecoveryEnabled = true };
             IoC.Register<IConnectionFactory>(factory);
             var dic = new Dictionary<int, Type>();
             dic.Add(100, typeof(TestCommand));

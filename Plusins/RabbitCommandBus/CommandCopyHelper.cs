@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using DFramework.DynamicReflection;
 
 namespace DFramework.RabbitCommandBus
@@ -24,7 +23,6 @@ namespace DFramework.RabbitCommandBus
             if (!isRegisterSetter || !isRegisterGetter)
             {
                 var properties = sourceType.GetProperties();
-                var propertyNames = sourceType.GetProperties().Select(p => p.Name);
                 var propSetterAction = new Dictionary<string, Proc<object, object>>();
                 var propGetterAction = new Dictionary<string, DynamicReflection.Func<object, object>>();
 

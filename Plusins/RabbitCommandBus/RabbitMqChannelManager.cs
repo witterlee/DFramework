@@ -59,7 +59,7 @@ namespace DFramework.RabbitCommandBus
                     {
                         var newConn = IoC.Resolve<IConnectionFactory>().CreateConnection();
                         channel = newConn.CreateModel();
-                        var cList = new List<IModel>() { channel };
+                        var cList = new List<IModel> { channel };
                         _channelPool.Add(newConn, cList);
                     }
                 }

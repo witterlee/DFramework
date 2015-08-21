@@ -23,8 +23,8 @@ namespace DFramework.RabbitCommandBus
             {
                 //绑定发送队列
                 var channel = RabbitMqChannelManager.GetChannel();
-                var routeKey = Constants.COMMAND_ROUTE_KEY_PREFIX + queueCount.ToString();
-                var queueName = Constants.COMMAND_QUEUE + queueCount.ToString();
+                var routeKey = Constants.COMMAND_ROUTE_KEY_PREFIX + queueCount;
+                var queueName = Constants.COMMAND_QUEUE + queueCount;
                 channel.ExchangeDeclare(Constants.EXCHANGE, ExchangeType.Direct, durable, false, null);
                 channel.QueueDeclare(queueName, durable, false, false, null);
                 channel.QueueBind(queueName, Constants.EXCHANGE, routeKey);

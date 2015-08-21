@@ -57,8 +57,8 @@ namespace DFramework.RabbitCommandBus
             var durable = true;
             while (queueCount-- > 0)
             {
-                var routeKey = Constants.COMMAND_ROUTE_KEY_PREFIX + queueCount.ToString();
-                var queueName = Constants.COMMAND_QUEUE + queueCount.ToString();
+                var routeKey = Constants.COMMAND_ROUTE_KEY_PREFIX + queueCount;
+                var queueName = Constants.COMMAND_QUEUE + queueCount;
                 _channel.ExchangeDeclare(Constants.EXCHANGE, ExchangeType.Direct, durable, false, null);
                 _channel.QueueDeclare(queueName, durable, false, false, null);
                 _channel.QueueBind(queueName, Constants.EXCHANGE, routeKey);
