@@ -22,7 +22,7 @@ namespace DFramework
         }
         public Guid Id { get; set; }
         public CommandStatus Status { get; set; }
-        public string Message { get; set; }
+        public string Message { get; set; } 
     }
     /// <summary>
     /// 命令接口

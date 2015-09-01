@@ -28,47 +28,45 @@ namespace DFramework
             {
                 while (true)
                 {
-                    ICommand cmd;
-                    if (this._commandQueue.TryTake(out cmd))
-                    {
-                        Task.Factory.StartNew(() =>
-                        {
-                            CommandTaskCompletionSource tcs;
-                            if (_commandTaskDic.TryGetValue(cmd.Id, out tcs))
-                            {
-                                var delegete = this._executorContainer.FindExecutor(cmd.GetType());
+                    ICommand cmd = this._commandQueue.Take();
 
-                                if (delegete == null)
+                    Task.Factory.StartNew(() =>
+                    {
+                        CommandTaskCompletionSource tcs;
+                        if (_commandTaskDic.TryGetValue(cmd.Id, out tcs))
+                        {
+                            var delegete = this._executorContainer.FindExecutor(cmd.GetType());
+
+                            if (delegete == null)
+                            {
+                                cmd.Status = CommandStatus.Fail;
+                                cmd.Message = "not found command " + cmd.GetType().Name + "'s executor";
+                                tcs.CompletionSource.SetResult(cmd);
+                            }
+                            else
+                            {
+                                try
                                 {
+                                    delegete.Item1.Invoke(delegete.Item2, cmd);
+                                    cmd.Status = CommandStatus.Success;
+                                    tcs.CompletionSource.SetResult(cmd);
+                                    Log.Debug("execute cmd success,cmdId={0},cmdStatus={1}");
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    Log.Debug("execute command error", ex);
+
                                     cmd.Status = CommandStatus.Fail;
-                                    cmd.Message = "not found command " + cmd.GetType().Name + "'s executor";
+                                    cmd.Message = ex.Message;
                                     tcs.CompletionSource.SetResult(cmd);
                                 }
-                                else
-                                {
-                                    try
-                                    {
-                                        delegete.Item1.Invoke(delegete.Item2, cmd);
-                                        cmd.Status = CommandStatus.Success;
-                                        tcs.CompletionSource.SetResult(cmd);
-                                        Log.Debug("execute cmd success,cmdId={0},cmdStatus={1}");
 
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Log.Debug("execute command error", ex);
-
-                                        cmd.Status = CommandStatus.Fail;
-                                        cmd.Message = ex.Message;
-                                        tcs.CompletionSource.SetResult(cmd);
-                                    }
-
-                                    _commandTaskDic.TryRemove(cmd.Id, out tcs);
-                                }
+                                _commandTaskDic.TryRemove(cmd.Id, out tcs);
                             }
+                        }
 
-                        });
-                    }
+                    });
                 }
             });
 
